@@ -1,0 +1,10 @@
+{
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts", ".d.ts"]
+      }
+    }
+  },
+  "ignorePatterns": ["api/node_modules/**/*", "app/node_modules/**/*"]
+}
