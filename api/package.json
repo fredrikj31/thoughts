@@ -1,0 +1,26 @@
+{
+  "name": "@thoughts/api",
+  "scripts": {
+    "dev": "tsx watch src/app.ts | pino-pretty",
+    "build": "tsc --noEmit",
+    "start": "node build/index.js",
+    "lint": "eslint . --max-warnings 0"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.12.5",
+    "eslint": "^8.57.0",
+    "pino-pretty": "^11.0.0",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.4"
+  },
+  "dependencies": {
+    "@fastify/swagger": "^8.14.0",
+    "@fastify/swagger-ui": "^3.0.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.26.2",
+    "fastify-type-provider-zod": "^1.1.9",
+    "pino": "^8.20.0",
+    "zod": "^3.22.4"
+  }
+}
