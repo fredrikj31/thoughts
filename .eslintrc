@@ -1,10 +1,8 @@
 {
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".ts", ".d.ts"]
-      }
-    }
-  },
-  "ignorePatterns": ["api/node_modules/**/*", "app/node_modules/**/*"]
+  "ignorePatterns": ["api/**", "app/**", "packages/**"],
+  "extends": ["@thoughts/eslint-config/library.js"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": true
+  }
 }
