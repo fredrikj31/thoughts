@@ -6,6 +6,7 @@ import { config } from "./config";
 import { logger } from "./logger";
 import { BaseError } from "./errors";
 import { routes } from "./routes";
+import { databasePlugin } from "./services/database/client";
 
 const app: FastifyInstance = Fastify({
   logger: true,
@@ -14,6 +15,13 @@ const app: FastifyInstance = Fastify({
 app
   .register(fastifySwagger, swaggerConfig)
   .register(fastifySwaggerUi, swaggerUiConfig)
+  .register(databasePlugin, {
+    dbHost: config.database.host,
+    dbPort: config.database.port,
+    dbUser: config.database.user,
+    dbPassword: config.database.password,
+    dbName: config.database.name,
+  })
   .after(() => {
     app.register(routes);
   });
