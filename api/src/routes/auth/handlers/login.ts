@@ -13,15 +13,29 @@ interface LoginHandlerOptions {
   };
 }
 
+interface LoginHandlerOutput {
+  accessToken: {
+    token: string;
+    expiresAt: string;
+  };
+  refreshToken: {
+    token: string;
+    expiresAt: string;
+  };
+}
+
 export const loginHandler = async ({
   database,
   credentials,
-}: LoginHandlerOptions) => {
+}: LoginHandlerOptions): Promise<LoginHandlerOutput> => {
   const user = await loginUser(database, {
     email: credentials.email,
     password: credentials.password,
   });
 
+  const accessTokenExpiresAt = new Date(
+    new Date().getTime() + config.jwt.accessTokenTTLSeconds * 1000,
+  ).toISOString();
   const accessToken = signJwt({
     payload: {
       userId: user.id,
@@ -31,6 +45,9 @@ export const loginHandler = async ({
     expiresInSeconds: config.jwt.accessTokenTTLSeconds,
   });
 
+  const refreshTokenExpiresAt = new Date(
+    new Date().getTime() + config.jwt.accessTokenTTLSeconds * 1000,
+  ).toISOString();
   const refreshTokenId = randomUUID();
   const refreshToken = signJwt({
     payload: {},
@@ -46,5 +63,14 @@ export const loginHandler = async ({
     ).toISOString(),
   });
 
-  return { accessToken, refreshToken };
+  return {
+    accessToken: {
+      token: accessToken,
+      expiresAt: accessTokenExpiresAt,
+    },
+    refreshToken: {
+      token: refreshToken,
+      expiresAt: refreshTokenExpiresAt,
+    },
+  };
 };
