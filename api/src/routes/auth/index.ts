@@ -61,20 +61,24 @@ export const authRoutes: FastifyPluginAsync = async (instance) => {
           password: z.string(),
         }),
         response: {
-          "200": z.object({
-            accessToken: z.string(),
-            refreshToken: z.string(),
-          }),
+          "204": z.void(),
         },
       },
     },
     async (req, res) => {
-      const userTokens = await loginHandler({
+      const { accessToken, refreshToken } = await loginHandler({
         database,
         credentials: req.body,
       });
 
-      return res.send(userTokens);
+      // Sets access and refresh token in the cookies
+      res.setCookie("access_token", accessToken.token, {
+        expires: new Date(accessToken.expiresAt),
+      });
+      res.setCookie("refresh_token", refreshToken.token, {
+        expires: new Date(refreshToken.expiresAt),
+      });
+      return res.status(204).send();
     },
   );
 
