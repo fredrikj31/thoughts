@@ -31,6 +31,10 @@ export const config = {
     jwtPrivateKey: envVars.data.JWT_PRIVATE_KEY,
     passwordSalt: envVars.data.JWT_PRIVATE_KEY,
   },
+  jwt: {
+    accessTokenTTLSeconds: 60 * 60 * 24, // 24 hours
+    refreshTokenTTLSeconds: 60 * 60 * 24 * 30, // 30 days
+  },
   database: {
     host: envVars.data.DB_HOST,
     port: envVars.data.DB_PORT,
