@@ -1,0 +1,2 @@
+POST http://localhost:3000/auth/token HTTP/1.1
+Cookie: refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQyMDg0MTgsImV4cCI6MTcxNjgwMDQxOCwianRpIjoiOWZlNzUxNjYtNTM0ZC00M2E3LWJhMTQtMWU0YWVmYjk4YTU2In0.dffVrgZhMweqrPuBhoX8mbvPs8lty0Smbqz245hq1Uc;
