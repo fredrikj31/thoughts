@@ -8,6 +8,8 @@ import { UserSchema } from "../../types/user";
 import { signupHandler } from "./handlers/signup";
 import z from "zod";
 import { loginHandler } from "./handlers/login";
+import { tokenHandler } from "./handlers/token";
+import { BadRequestError } from "../../errors/client";
 
 export const authRoutes: FastifyPluginAsync = async (instance) => {
   instance.setValidatorCompiler(validatorCompiler);
@@ -73,6 +75,43 @@ export const authRoutes: FastifyPluginAsync = async (instance) => {
       });
 
       return res.send(userTokens);
+    },
+  );
+
+  app.post(
+    "/token",
+    {
+      schema: {
+        summary: "Refreshes user access token",
+        description:
+          "Refreshes a user's access token with use of their refresh token",
+        tags: ["auth"],
+        response: {
+          "204": z.void(),
+        },
+      },
+    },
+    async (req, res) => {
+      // Get refresh token from cookies
+      const refreshToken = req.cookies["refresh_token"];
+      if (!refreshToken) {
+        throw new BadRequestError({
+          code: "refresh-token-cookie-not-found",
+          message: "Could not find refresh token cookie in the headers",
+        });
+      }
+
+      // Refreshes access token with access token
+      const { accessToken, expiresAt } = await tokenHandler({
+        database,
+        refreshToken,
+      });
+
+      // Sets new access token in the cookies
+      res.setCookie("access_token", accessToken, {
+        expires: new Date(expiresAt),
+      });
+      return res.status(204).send();
     },
   );
 };

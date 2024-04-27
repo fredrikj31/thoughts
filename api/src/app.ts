@@ -1,6 +1,7 @@
 import Fastify, { FastifyInstance } from "fastify";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
+import fastifyCookie from "@fastify/cookie";
 import { swaggerConfig, swaggerUiConfig } from "./plugins/swagger";
 import { config } from "./config";
 import { logger } from "./logger";
@@ -15,6 +16,14 @@ const app: FastifyInstance = Fastify({
 app
   .register(fastifySwagger, swaggerConfig)
   .register(fastifySwaggerUi, swaggerUiConfig)
+  .register(fastifyCookie, {
+    secret: config.tokens.cookieSecret,
+    algorithm: "sha256",
+    parseOptions: {
+      domain: config.api.host,
+      path: "/",
+    },
+  })
   .register(databasePlugin, {
     dbHost: config.database.host,
     dbPort: config.database.port,
