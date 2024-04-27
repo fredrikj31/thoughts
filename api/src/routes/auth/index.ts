@@ -6,6 +6,8 @@ import {
 } from "fastify-type-provider-zod";
 import { UserSchema } from "../../types/user";
 import { signupHandler } from "./handlers/signup";
+import z from "zod";
+import { loginHandler } from "./handlers/login";
 
 export const authRoutes: FastifyPluginAsync = async (instance) => {
   instance.setValidatorCompiler(validatorCompiler);
@@ -42,6 +44,35 @@ export const authRoutes: FastifyPluginAsync = async (instance) => {
     async (req, res) => {
       const createdUser = await signupHandler({ database, user: req.body });
       return res.send(createdUser);
+    },
+  );
+
+  app.post(
+    "/login",
+    {
+      schema: {
+        summary: "Login a user",
+        description: "Logs in the user and returns access & refresh tokens",
+        tags: ["auth"],
+        body: z.object({
+          email: z.string(),
+          password: z.string(),
+        }),
+        response: {
+          "200": z.object({
+            accessToken: z.string(),
+            refreshToken: z.string(),
+          }),
+        },
+      },
+    },
+    async (req, res) => {
+      const userTokens = await loginHandler({
+        database,
+        credentials: req.body,
+      });
+
+      return res.send(userTokens);
     },
   );
 };
