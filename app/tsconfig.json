@@ -1,4 +1,10 @@
 {
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@shadcn-ui/*": ["./src/shadcn-ui/*"]
+    }
+  },
   "extends": ["@thoughts/typescript-config/app-tsconfig.json"],
   "include": ["vite.config.ts", "src"]
 }
