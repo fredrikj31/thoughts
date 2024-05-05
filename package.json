@@ -13,7 +13,7 @@
     "@thoughts/typescript-config": "workspace:*",
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
-    "turbo": "latest"
+    "turbo": "^1.13.3"
   },
   "packageManager": "pnpm@8.15.0",
   "engines": {
