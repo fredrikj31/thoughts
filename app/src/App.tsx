@@ -22,7 +22,7 @@ export const App = () => {
 
   return (
     <>
-      <ThemeProvider defaultTheme="light" storageKey="thoughts-theme">
+      <ThemeProvider defaultTheme="system" storageKey="thoughts-theme">
         <RouterProvider router={router} />
       </ThemeProvider>
     </>
