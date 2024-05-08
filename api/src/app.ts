@@ -1,6 +1,7 @@
 import Fastify, { FastifyInstance } from "fastify";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
+import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
 import { swaggerConfig, swaggerUiConfig } from "./plugins/swagger";
 import { config } from "./config";
@@ -16,6 +17,7 @@ const app: FastifyInstance = Fastify({
 app
   .register(fastifySwagger, swaggerConfig)
   .register(fastifySwaggerUi, swaggerUiConfig)
+  .register(fastifyCors)
   .register(fastifyCookie, {
     secret: config.tokens.cookieSecret,
     algorithm: "sha256",

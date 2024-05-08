@@ -11,10 +11,75 @@ import {
 } from "@shadcn-ui/components/ui/select";
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
+import { DateTime } from "luxon";
 import { Checkbox } from "@shadcn-ui/components/ui/checkbox";
+import { useSignupUser } from "../../api/auth/signup/useSignupUser";
+import { useToast } from "@shadcn-ui/components/ui/use-toast";
+import { ToastAction } from "@shadcn-ui/components/ui/toast";
+import { useNavigate } from "react-router-dom";
 
 export const SignupPage = () => {
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { mutate: signupUser } = useSignupUser();
+
+  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
+  const [gender, setGender] = useState<string>("");
+  const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
+
+  const signup = () => {
+    if (
+      !email ||
+      !username ||
+      !password ||
+      !firstName ||
+      !lastName ||
+      !birthDate ||
+      !gender ||
+      !acceptedTerms
+    ) {
+      toast({
+        title: "Fields Empty!",
+        description: "Please fill out all the input fields",
+      });
+      return;
+    }
+
+    signupUser(
+      {
+        email,
+        username,
+        password,
+        firstName,
+        lastName,
+        birthDate: DateTime.fromJSDate(birthDate).toFormat("yyyy-LL-dd"),
+        gender,
+      },
+      {
+        onError: (error) =>
+          toast({
+            variant: "destructive",
+            title: "Error signing up!",
+            description: error.message,
+          }),
+        onSuccess: () =>
+          toast({
+            title: "Successfully signed up!",
+            description: "Welcome to the club. You are now signed up",
+            action: (
+              <ToastAction altText="Login" onClick={() => navigate("/")}>
+                Login
+              </ToastAction>
+            ),
+          }),
+      },
+    );
+  };
 
   return (
     <div className="min-h-screen grid grid-cols-2">
@@ -54,6 +119,8 @@ export const SignupPage = () => {
             autoCapitalize="none"
             autoComplete="email"
             autoCorrect="off"
+            value={email}
+            onChange={(e) => setEmail(e.currentTarget.value)}
           />
           <Label className="sr-only" htmlFor="email">
             Username
@@ -64,6 +131,20 @@ export const SignupPage = () => {
             type="text"
             autoCapitalize="none"
             autoCorrect="off"
+            value={username}
+            onChange={(e) => setUsername(e.currentTarget.value)}
+          />
+          <Label className="sr-only" htmlFor="password">
+            Password
+          </Label>
+          <Input
+            id="password"
+            placeholder="Password"
+            type="password"
+            autoCapitalize="none"
+            autoCorrect="off"
+            value={password}
+            onChange={(e) => setPassword(e.currentTarget.value)}
           />
           <div className="flex flex-row gap-2">
             <Label className="sr-only" htmlFor="firstName">
@@ -74,6 +155,8 @@ export const SignupPage = () => {
               placeholder="First Name"
               autoComplete="given-name"
               type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.currentTarget.value)}
             />
             <Label className="sr-only" htmlFor="lastName">
               Last Name
@@ -83,15 +166,17 @@ export const SignupPage = () => {
               placeholder="Last Name"
               autoComplete="family-name"
               type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.currentTarget.value)}
             />
           </div>
           <div className="grid grid-cols-2 gap-2">
             <DatePicker
-              date={date}
+              date={birthDate}
               toDate={new Date()}
-              onDateSelected={(date) => setDate(date)}
+              onDateSelected={(date) => setBirthDate(date)}
             />
-            <Select>
+            <Select value={gender} onValueChange={(e) => setGender(e)}>
               <SelectTrigger>
                 <SelectValue placeholder="Gender" />
               </SelectTrigger>
@@ -106,7 +191,10 @@ export const SignupPage = () => {
           </div>
           <div className="flex flex-row gap-2 items-start">
             <div className="mt-0.5">
-              <Checkbox />
+              <Checkbox
+                checked={acceptedTerms}
+                onCheckedChange={(e) => setAcceptedTerms(Boolean(e.valueOf()))}
+              />
             </div>
             <div className="flex flex-col">
               <span>Accept terms and conditions</span>
@@ -115,7 +203,7 @@ export const SignupPage = () => {
               </span>
             </div>
           </div>
-          <Button>Sign Up</Button>
+          <Button onClick={signup}>Sign Up</Button>
         </div>
       </div>
     </div>
