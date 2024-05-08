@@ -4,6 +4,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { HomePage } from "./routes/Home";
 import { LandingPage } from "./routes/Landing";
 import { SignupPage } from "./routes/Signup";
+import { Toaster } from "@shadcn-ui/components/ui/toaster";
 
 export const App = () => {
   const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ export const App = () => {
       <ThemeProvider defaultTheme="system" storageKey="thoughts-theme">
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
+          <Toaster />
         </QueryClientProvider>
       </ThemeProvider>
     </>
