@@ -17,13 +17,20 @@ const app: FastifyInstance = Fastify({
 app
   .register(fastifySwagger, swaggerConfig)
   .register(fastifySwaggerUi, swaggerUiConfig)
-  .register(fastifyCors)
+  .register(fastifyCors, {
+    origin: config.website.baseUrl,
+    methods: ["GET", "POST"],
+    maxAge: 86400,
+    credentials: true,
+  })
   .register(fastifyCookie, {
     secret: config.tokens.cookieSecret,
     algorithm: "sha256",
     parseOptions: {
-      domain: config.api.host,
       path: "/",
+      httpOnly: true,
+      signed: true,
+      sameSite: true,
     },
   })
   .register(databasePlugin, {
