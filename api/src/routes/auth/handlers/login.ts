@@ -46,7 +46,7 @@ export const loginHandler = async ({
   });
 
   const refreshTokenExpiresAt = new Date(
-    new Date().getTime() + config.jwt.accessTokenTTLSeconds * 1000,
+    new Date().getTime() + config.jwt.refreshTokenTTLSeconds * 1000,
   ).toISOString();
   const refreshTokenId = randomUUID();
   const refreshToken = signJwt({
