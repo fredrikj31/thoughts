@@ -67,6 +67,15 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
+    // Breakpoints
+    screens: {
+      sm: "376px",
+      md: "768px",
+      mg: "1080px",
+      lg: "1280px",
+      xl: "1440px",
+      "2xl": "1920px",
+    },
   },
   plugins: [require("tailwindcss-animate")],
 };
