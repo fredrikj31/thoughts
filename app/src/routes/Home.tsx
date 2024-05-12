@@ -1,10 +1,15 @@
-import { Button } from "@shadcn-ui/components/ui/button";
+import { Navbar } from "../components/Navbar";
+import { Post } from "../components/Post";
 
 export const HomePage = () => {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Hello World</h1>
-      <Button>Hello</Button>
+    <div className="flex flex-col mg:gap-7 gap-4 container">
+      <Navbar />
+      {/* Feed */}
+      <div className="flex flex-col self-center max-w-3xl gap-4">
+        {/* Post */}
+        <Post />
+      </div>
     </div>
   );
 };
