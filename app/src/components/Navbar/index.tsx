@@ -27,8 +27,25 @@ import {
   SheetTrigger,
 } from "@shadcn-ui/components/ui/sheet";
 import { NavbarLink } from "./components/NavbarLink";
+import { useTheme } from "../../providers/theme";
+import { ThemeToggler } from "./components/ThemeToggler";
 
 export const Navbar = () => {
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    switch (theme) {
+      case "light":
+        setTheme("dark");
+        break;
+      case "dark":
+        setTheme("light");
+        break;
+      default:
+        break;
+    }
+  };
+
   const links: { text: string; path: string; icon: JSX.Element }[] = [
     {
       text: "Home",
@@ -95,22 +112,27 @@ export const Navbar = () => {
           ))}
         </div>
       </div>
-      {/* Dropdown Profile Picture */}
-      <DropdownMenu>
-        <DropdownMenuTrigger>
-          <Avatar className="size-12">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>John Doe (@johndoe)</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Account</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Logout</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      {/* Profile Picture (dropdown) and Theme Selector */}
+      <div className="flex flex-row gap-2 items-center">
+        {/* Theme Selector */}
+        <ThemeToggler onClick={() => toggleTheme()} />
+        {/* Dropdown Profile Picture */}
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Avatar className="size-12">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>John Doe (@johndoe)</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Account</DropdownMenuItem>
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem>Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 };

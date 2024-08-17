@@ -31,7 +31,7 @@ export const App = () => {
 
   return (
     <>
-      <ThemeProvider defaultTheme="system" storageKey="thoughts-theme">
+      <ThemeProvider defaultTheme="light" storageKey="thoughts-theme">
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
           <Toaster />
