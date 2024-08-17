@@ -50,22 +50,22 @@ export const Navbar = () => {
     {
       text: "Home",
       path: "/",
-      icon: <HomeIcon className="size-6 group-hover:text-zinc-300" />,
+      icon: <HomeIcon className="size-5 group-hover:text-zinc-300" />,
     },
     {
       text: "Friends",
       path: "/friends",
-      icon: <UsersIcon className="size-6 group-hover:text-zinc-300" />,
+      icon: <UsersIcon className="size-5 group-hover:text-zinc-300" />,
     },
     {
       text: "Messages",
       path: "/messages",
-      icon: <EnvelopeIcon className="size-6 group-hover:text-zinc-300" />,
+      icon: <EnvelopeIcon className="size-5 group-hover:text-zinc-300" />,
     },
     {
       text: "Activity",
       path: "/activity",
-      icon: <BellIcon className="size-6 group-hover:text-zinc-300" />,
+      icon: <BellIcon className="size-5 group-hover:text-zinc-300" />,
     },
   ];
 
