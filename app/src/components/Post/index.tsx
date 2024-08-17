@@ -40,12 +40,22 @@ export const Post = () => {
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-4">
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent erat
           diam, vestibulum id hendrerit eget, congue gravida diam. Maecenas
           cursus pulvinar risus, vel tincidunt lectus pellentesque at.
         </p>
+        <div className="flex flex-row justify-evenly gap-4 w-full flex-wrap">
+          <img
+            className="size-full rounded-lg aspect-video flex-[1_0_40%]"
+            src="https://placehold.co/250x140"
+          />
+          <img
+            className="size-full rounded-lg aspect-video flex-[1_0_40%]"
+            src="https://placehold.co/250x140"
+          />
+        </div>
       </CardContent>
       <CardFooter className="flex flex-row justify-between">
         <div className="flex flex-row gap-2">
