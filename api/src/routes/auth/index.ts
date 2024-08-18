@@ -9,7 +9,8 @@ import { signupHandler } from "./handlers/signup";
 import z from "zod";
 import { loginHandler } from "./handlers/login";
 import { tokenHandler } from "./handlers/token";
-import { BadRequestError } from "../../errors/client";
+import { BadRequestError, NotFoundError } from "../../errors/client";
+import { logoutHandler } from "./handlers/logout";
 
 export const authRoutes: FastifyPluginAsync = async (instance) => {
   instance.setValidatorCompiler(validatorCompiler);
@@ -79,6 +80,40 @@ export const authRoutes: FastifyPluginAsync = async (instance) => {
         expires: new Date(refreshToken.expiresAt),
       });
       return res.status(204).send();
+    },
+  );
+
+  app.post(
+    "/logout",
+    {
+      schema: {
+        summary: "Logouts a user",
+        descriptions: "Logouts a user. Deletes refresh token from database",
+        tags: ["auth"],
+        response: {
+          "401": z.object({
+            code: z.string(),
+            message: z.string(),
+          }),
+          "200": z.void(),
+        },
+      },
+    },
+    async (req, res) => {
+      const refreshToken = req.cookies["refresh_token"];
+      if (!refreshToken) {
+        throw new NotFoundError({
+          code: "refresh-token-not-found-in-cookies",
+          message: "The refresh token was not found in the request cookies",
+        });
+      }
+      await logoutHandler({ database, refreshToken });
+
+      // Clears access and refresh token cookies
+      res.clearCookie("access_token");
+      res.clearCookie("refresh_token");
+
+      return res.status(200).send();
     },
   );
 
