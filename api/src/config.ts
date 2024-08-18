@@ -15,7 +15,6 @@ const envVarsSchema = z.object({
   DB_PASSWORD: z.string(),
   JWT_PRIVATE_KEY: z.string(),
   PASSWORD_SALT: z.string(),
-  COOKIE_SECRET: z.string(),
 });
 
 const envVars = envVarsSchema.safeParse(process.env);
@@ -35,7 +34,6 @@ export const config = {
   tokens: {
     jwtPrivateKey: envVars.data.JWT_PRIVATE_KEY,
     passwordSalt: envVars.data.JWT_PRIVATE_KEY,
-    cookieSecret: envVars.data.COOKIE_SECRET,
   },
   jwt: {
     accessTokenTTLSeconds: 60 * 60 * 24, // 24 hours
