@@ -29,9 +29,16 @@ import {
 import { NavbarLink } from "./components/NavbarLink";
 import { useTheme } from "../../providers/theme";
 import { ThemeToggler } from "./components/ThemeToggler";
+import { useLogoutUser } from "../../api/auth/logout/useLogoutUser";
+import { useToast } from "@shadcn-ui/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const { theme, setTheme } = useTheme();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const { mutate: logoutUser } = useLogoutUser();
 
   const toggleTheme = () => {
     switch (theme) {
@@ -68,6 +75,18 @@ export const Navbar = () => {
       icon: <BellIcon className="size-5 group-hover:text-zinc-300" />,
     },
   ];
+
+  const logout = () => {
+    logoutUser(undefined, {
+      onError: (error) =>
+        toast({
+          variant: "destructive",
+          title: "Error logging out!",
+          description: error.message,
+        }),
+      onSuccess: () => navigate("/login"),
+    });
+  };
 
   return (
     <div className="w-full justify-between py-7 flex flex-row">
@@ -127,9 +146,18 @@ export const Navbar = () => {
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>John Doe (@johndoe)</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Account</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer">
+              Account
+            </DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer">
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="hover:cursor-pointer"
+              onClick={() => logout()}
+            >
+              Logout
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
