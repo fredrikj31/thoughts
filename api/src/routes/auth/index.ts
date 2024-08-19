@@ -125,18 +125,25 @@ export const authRoutes: FastifyPluginAsync = async (instance) => {
         description:
           "Refreshes a user's access token with use of their refresh token",
         tags: ["auth"],
+        body: z.object({
+          refreshToken: z.string(),
+        }),
         response: {
+          "400": z.object({
+            code: z.string(),
+            message: z.string(),
+          }),
           "204": z.void(),
         },
       },
     },
     async (req, res) => {
       // Get refresh token from cookies
-      const refreshToken = req.cookies["refresh_token"];
+      const { refreshToken } = req.body;
       if (!refreshToken) {
         throw new BadRequestError({
-          code: "refresh-token-cookie-not-found",
-          message: "Could not find refresh token cookie in the headers",
+          code: "refresh-token-body-not-found",
+          message: "Could not find refresh token in the body of the request",
         });
       }
 

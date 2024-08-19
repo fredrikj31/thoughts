@@ -1,14 +1,22 @@
-import { AxiosError } from "axios";
-import Cookies from "js-cookie";
-import { apiClient } from "../../apiClient";
+import axios, { AxiosError } from "axios";
+import cookies from "js-cookie";
 import { ApiError } from "../../errors";
+import { config } from "../../../config";
 
 export const refreshToken = async (): Promise<void> => {
-  const refreshToken = Cookies.get("refresh_token");
+  const refreshToken = cookies.get("refresh_token");
   try {
-    await apiClient.post("/token", {
-      refreshToken,
-    });
+    await axios.post(
+      "/auth/token",
+      {
+        // Should not use the apiClient, because it has the auth interceptor on it, and will cause infinite loop
+        refreshToken,
+      },
+      {
+        baseURL: config.api.baseUrl,
+        withCredentials: true,
+      },
+    );
   } catch (error) {
     if (error instanceof AxiosError) {
       if (error.response?.status === 400) {
