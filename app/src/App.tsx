@@ -6,6 +6,7 @@ import { LandingPage } from "./routes/Landing";
 import { SignupPage } from "./routes/Signup";
 import { Toaster } from "@shadcn-ui/components/ui/toaster";
 import { LoginPage } from "./routes/Login";
+import { UserProvider } from "./providers/user";
 
 export const App = () => {
   const queryClient = new QueryClient();
@@ -31,12 +32,14 @@ export const App = () => {
 
   return (
     <>
-      <ThemeProvider defaultTheme="light" storageKey="thoughts-theme">
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-          <Toaster />
-        </QueryClientProvider>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider defaultTheme="light" storageKey="thoughts-theme">
+          <UserProvider>
+            <RouterProvider router={router} />
+            <Toaster />
+          </UserProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
     </>
   );
 };

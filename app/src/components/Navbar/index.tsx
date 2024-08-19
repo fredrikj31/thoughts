@@ -32,8 +32,10 @@ import { ThemeToggler } from "./components/ThemeToggler";
 import { useLogoutUser } from "../../api/auth/logout/useLogoutUser";
 import { useToast } from "@shadcn-ui/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../providers/user";
 
 export const Navbar = () => {
+  const { user } = useUser();
   const { theme, setTheme } = useTheme();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -144,7 +146,9 @@ export const Navbar = () => {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>John Doe (@johndoe)</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              {user?.firstName} {user?.lastName} (@{user?.username})
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="hover:cursor-pointer">
               Account
