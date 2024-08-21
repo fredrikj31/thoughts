@@ -29,18 +29,13 @@ import {
 import { NavbarLink } from "./components/NavbarLink";
 import { useTheme } from "../../providers/theme";
 import { ThemeToggler } from "./components/ThemeToggler";
-import { useLogoutUser } from "../../api/auth/logout/useLogoutUser";
-import { useToast } from "@shadcn-ui/components/ui/use-toast";
-import { useNavigate } from "react-router-dom";
-import { useUser } from "../../providers/user";
+import { useAuth } from "../../providers/auth";
+import { useGetLoggedInUser } from "../../api/users/getLoggedInUser/useGetLoggedInUser";
 
 export const Navbar = () => {
-  const { user } = useUser();
+  const { logout } = useAuth();
   const { theme, setTheme } = useTheme();
-  const { toast } = useToast();
-  const navigate = useNavigate();
-
-  const { mutate: logoutUser } = useLogoutUser();
+  const { data: user } = useGetLoggedInUser();
 
   const toggleTheme = () => {
     switch (theme) {
@@ -77,18 +72,6 @@ export const Navbar = () => {
       icon: <BellIcon className="size-5 group-hover:text-zinc-300" />,
     },
   ];
-
-  const logout = () => {
-    logoutUser(undefined, {
-      onError: (error) =>
-        toast({
-          variant: "destructive",
-          title: "Error logging out!",
-          description: error.message,
-        }),
-      onSuccess: () => navigate("/login"),
-    });
-  };
 
   return (
     <div className="w-full justify-between py-7 flex flex-row">

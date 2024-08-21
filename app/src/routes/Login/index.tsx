@@ -3,13 +3,11 @@ import { Input } from "@shadcn-ui/components/ui/input";
 import { Label } from "@shadcn-ui/components/ui/label";
 import { useToast } from "@shadcn-ui/components/ui/use-toast";
 import { useState } from "react";
-import { useLoginUser } from "../../api/auth/login/useLoginUser";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../providers/auth";
 
 export const LoginPage = () => {
-  const navigate = useNavigate();
   const { toast } = useToast();
-  const { mutate: loginUser } = useLoginUser();
+  const auth = useAuth();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -23,21 +21,10 @@ export const LoginPage = () => {
       return;
     }
 
-    loginUser(
-      {
-        email,
-        password,
-      },
-      {
-        onError: (error) =>
-          toast({
-            variant: "destructive",
-            title: "Error logging in!",
-            description: error.message,
-          }),
-        onSuccess: () => navigate("/"),
-      },
-    );
+    auth.login({
+      email,
+      password,
+    });
   };
 
   return (

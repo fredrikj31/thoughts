@@ -35,7 +35,6 @@ export const authRoutes: FastifyPluginAsync = async (instance) => {
         }),
         response: {
           "200": UserSchema.omit({
-            id: true,
             passwordSalt: true,
             createdAt: true,
             updatedAt: true,
