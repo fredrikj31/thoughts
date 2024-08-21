@@ -29,18 +29,13 @@ import {
 import { NavbarLink } from "./components/NavbarLink";
 import { useTheme } from "../../providers/theme";
 import { ThemeToggler } from "./components/ThemeToggler";
-import { useLogoutUser } from "../../api/auth/logout/useLogoutUser";
-import { useToast } from "@shadcn-ui/components/ui/use-toast";
-import { useNavigate } from "react-router-dom";
-import { useUser } from "../../providers/user";
+import { useAuth } from "../../providers/auth";
+import { useGetLoggedInUser } from "../../api/users/getLoggedInUser/useGetLoggedInUser";
 
 export const Navbar = () => {
   const { logout } = useAuth();
   const { theme, setTheme } = useTheme();
-  const { toast } = useToast();
-  const navigate = useNavigate();
-
-  const { mutate: logoutUser } = useLogoutUser();
+  const { data: user } = useGetLoggedInUser();
 
   const toggleTheme = () => {
     switch (theme) {
