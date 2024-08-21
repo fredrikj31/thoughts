@@ -4,7 +4,7 @@ import { User } from "../../../types/user";
 
 export const useSignupUser = () => {
   return useMutation({
-    mutationFn: (user: User) => {
+    mutationFn: (user: Omit<User, "id">) => {
       return signupUser(user);
     },
   });
