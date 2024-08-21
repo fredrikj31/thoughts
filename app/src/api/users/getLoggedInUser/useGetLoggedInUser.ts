@@ -4,8 +4,10 @@ import { getLoggedInUser } from ".";
 export const useGetLoggedInUser = () => {
   return useQuery({
     queryKey: ["users", "me"],
+    staleTime: 60 * 1000, // 60 Seconds
     queryFn: () => {
       return getLoggedInUser();
     },
+    retry: false,
   });
 };
