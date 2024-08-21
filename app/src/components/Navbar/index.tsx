@@ -35,7 +35,7 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../../providers/user";
 
 export const Navbar = () => {
-  const { user } = useUser();
+  const { logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -77,18 +77,6 @@ export const Navbar = () => {
       icon: <BellIcon className="size-5 group-hover:text-zinc-300" />,
     },
   ];
-
-  const logout = () => {
-    logoutUser(undefined, {
-      onError: (error) =>
-        toast({
-          variant: "destructive",
-          title: "Error logging out!",
-          description: error.message,
-        }),
-      onSuccess: () => navigate("/login"),
-    });
-  };
 
   return (
     <div className="w-full justify-between py-7 flex flex-row">

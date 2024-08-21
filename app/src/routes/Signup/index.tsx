@@ -13,15 +13,12 @@ import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { DateTime } from "luxon";
 import { Checkbox } from "@shadcn-ui/components/ui/checkbox";
-import { useSignupUser } from "../../api/auth/signup/useSignupUser";
 import { useToast } from "@shadcn-ui/components/ui/use-toast";
-import { ToastAction } from "@shadcn-ui/components/ui/toast";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../providers/auth";
 
 export const SignupPage = () => {
-  const navigate = useNavigate();
   const { toast } = useToast();
-  const { mutate: signupUser } = useSignupUser();
+  const auth = useAuth();
 
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
@@ -50,35 +47,15 @@ export const SignupPage = () => {
       return;
     }
 
-    signupUser(
-      {
-        email,
-        username,
-        password,
-        firstName,
-        lastName,
-        birthDate: DateTime.fromJSDate(birthDate).toFormat("yyyy-LL-dd"),
-        gender,
-      },
-      {
-        onError: (error) =>
-          toast({
-            variant: "destructive",
-            title: "Error signing up!",
-            description: error.message,
-          }),
-        onSuccess: () =>
-          toast({
-            title: "Successfully signed up!",
-            description: "Welcome to the club. You are now signed up",
-            action: (
-              <ToastAction altText="Login" onClick={() => navigate("/")}>
-                Login
-              </ToastAction>
-            ),
-          }),
-      },
-    );
+    auth.signup({
+      email,
+      username,
+      password,
+      firstName,
+      lastName,
+      birthDate: DateTime.fromJSDate(birthDate).toFormat("yyyy-LL-dd"),
+      gender,
+    });
   };
 
   return (
