@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import cookies from "js-cookie";
 import { User } from "../types/user";
 import { useLoginUser } from "../api/auth/login/useLoginUser";
@@ -8,6 +8,7 @@ import { useSignupUser } from "../api/auth/signup/useSignupUser";
 import { useToast } from "@shadcn-ui/components/ui/use-toast";
 import { ToastAction } from "@shadcn-ui/components/ui/toast";
 import { useLogoutUser } from "../api/auth/logout/useLogoutUser";
+import { refreshToken } from "../api/auth/refreshToken";
 
 type AuthProviderProps = {
   children: React.ReactNode;
@@ -25,11 +26,20 @@ type AuthProviderValue = {
 const AuthContext = createContext<AuthProviderValue | null>(null);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const accessToken = cookies.get("access_token");
-  const decodedAccessToken = decodeJwtToken<{ userId: string }>({
-    token: accessToken,
-  });
-  const isAuthenticated = accessToken !== undefined ? true : false;
+  const [accessToken, setAccessToken] = useState<string | undefined>(
+    cookies.get("access_token"),
+  );
+  const refreshTokenCookie = cookies.get("refresh_token");
+
+  const decodedAccessToken = useMemo<{ userId: string } | undefined>(() => {
+    return decodeJwtToken<{ userId: string }>({
+      token: accessToken,
+    });
+  }, [accessToken]);
+
+  const isAuthenticated = useMemo<boolean>(() => {
+    return accessToken !== undefined ? true : false;
+  }, [accessToken]);
 
   const [userId, setUserId] = useState<string | undefined>(
     decodedAccessToken?.userId,
@@ -40,6 +50,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const { mutate: loginUser } = useLoginUser();
   const { mutate: signupUser } = useSignupUser();
   const { mutate: logoutUser } = useLogoutUser();
+
+  useEffect(() => {
+    if (!accessToken && refreshTokenCookie) {
+      refreshToken().then(() => {
+        setAccessToken(cookies.get("access_token"));
+        navigate("/");
+      });
+    }
+  }, [navigate, accessToken, refreshTokenCookie]);
 
   const login = (data: Pick<User, "email" | "password">) => {
     loginUser(data, {
@@ -52,6 +71,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       },
       onSuccess: () => {
         setUserId(decodedAccessToken?.userId);
+        setAccessToken(cookies.get("access_token"));
         navigate("/");
       },
     });
