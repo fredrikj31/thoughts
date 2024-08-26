@@ -2,7 +2,7 @@ import z from "zod";
 import { DateSchema, GenderSchema } from ".";
 
 export const UserSchema = z.object({
-  id: z.string(),
+  id: z.string().uuid(),
   username: z.string(),
   email: z.string().email(),
   password: z.string(),
