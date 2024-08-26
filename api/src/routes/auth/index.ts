@@ -1,9 +1,5 @@
 import { FastifyPluginAsync } from "fastify";
-import {
-  ZodTypeProvider,
-  serializerCompiler,
-  validatorCompiler,
-} from "fastify-type-provider-zod";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { UserSchema } from "../../types/user";
 import { signupHandler } from "./handlers/signup";
 import z from "zod";
@@ -13,9 +9,6 @@ import { BadRequestError, NotFoundError } from "../../errors/client";
 import { logoutHandler } from "./handlers/logout";
 
 export const authRoutes: FastifyPluginAsync = async (instance) => {
-  instance.setValidatorCompiler(validatorCompiler);
-  instance.setSerializerCompiler(serializerCompiler);
-
   const app = instance.withTypeProvider<ZodTypeProvider>();
   const database = instance.database;
 
