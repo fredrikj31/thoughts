@@ -33,6 +33,7 @@ const isAccessTokenExpired = ({
       return true;
     }
   } catch (error) {
+    console.error("Failed to parse JWT token", error);
     // If we can't validate the JWT access token then clear the cookies
     clearCookies();
     return false;
