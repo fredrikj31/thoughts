@@ -12,7 +12,7 @@ export const usersRoutes: FastifyPluginAsync = async (instance) => {
   app.get(
     "/me",
     {
-      onRequest: [validateJwt],
+      onRequest: validateJwt(),
       schema: {
         summary: "Get user information",
         description: "Gets logged in users information",
