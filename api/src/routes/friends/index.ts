@@ -12,6 +12,7 @@ import { ApiErrorSchema } from "../../types/error";
 import { listFriendRequestsHandler } from "./handlers/listFriendRequests";
 import z from "zod";
 import { createFriendRequestHandler } from "./handlers/createFriendRequest";
+import { deleteFriendRequestHandler } from "./handlers/deleteFriendRequest";
 
 export const friendsRoutes: FastifyPluginAsync = async (instance) => {
   const app = instance.withTypeProvider<ZodTypeProvider>();
@@ -139,6 +140,47 @@ export const friendsRoutes: FastifyPluginAsync = async (instance) => {
         database,
         userId,
         friendId,
+      });
+
+      return res.status(200).send(friendRequest);
+    },
+  );
+
+  app.delete(
+    "/requests/:requestId",
+    {
+      onRequest: validateJwt(),
+      schema: {
+        summary: "Deletes a friend request",
+        description: "Deletes a friend requests to another user.",
+        tags: ["friends"],
+        security: [
+          {
+            jwt: [""],
+          },
+        ],
+        params: z.object({
+          requestId: z.string().uuid(),
+        }),
+        response: {
+          "200": FriendRequestSchema,
+        },
+      },
+    },
+    async (req, res) => {
+      const userId = req.user?.id;
+      if (!userId) {
+        throw new UnauthorizedError({
+          code: "user-id-not-found-in-request",
+          message: "A user id wasn't found in the request object",
+        });
+      }
+
+      const { requestId } = req.params;
+      const friendRequest = await deleteFriendRequestHandler({
+        database,
+        userId,
+        requestId,
       });
 
       return res.status(200).send(friendRequest);

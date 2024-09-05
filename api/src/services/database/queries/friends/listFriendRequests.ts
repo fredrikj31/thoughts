@@ -36,7 +36,9 @@ export const listFriendRequests = async (
         friend_requests
         JOIN users ON friend_requests.sender_id = users.id
       WHERE
-        friend_requests.receiver_id = ${userId};
+        friend_requests.receiver_id = ${userId}
+      AND
+        friend_requests.deleted_at IS NULL;
     `);
   } catch (error) {
     logger.error(
