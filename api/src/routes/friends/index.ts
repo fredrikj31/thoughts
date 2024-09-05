@@ -13,6 +13,8 @@ import { listFriendRequestsHandler } from "./handlers/listFriendRequests";
 import z from "zod";
 import { createFriendRequestHandler } from "./handlers/createFriendRequest";
 import { deleteFriendRequestHandler } from "./handlers/deleteFriendRequest";
+import { acceptFriendRequestHandler } from "./handlers/acceptFriendRequest";
+import { declineFriendRequestHandler } from "./handlers/declineFriendRequest";
 
 export const friendsRoutes: FastifyPluginAsync = async (instance) => {
   const app = instance.withTypeProvider<ZodTypeProvider>();
@@ -184,6 +186,63 @@ export const friendsRoutes: FastifyPluginAsync = async (instance) => {
       });
 
       return res.status(200).send(friendRequest);
+    },
+  );
+
+  app.put(
+    "/requests/:requestId",
+    {
+      onRequest: validateJwt(),
+      schema: {
+        summary: "Accepts or Declines a friend request",
+        description: "Accepts or Declines a friend requests to another user.",
+        tags: ["friends"],
+        security: [
+          {
+            jwt: [""],
+          },
+        ],
+        params: z.object({
+          requestId: z.string().uuid(),
+        }),
+        body: z.object({
+          status: z.enum(["accepted", "declined"]),
+        }),
+        response: {
+          "200": FriendRequestSchema,
+        },
+      },
+    },
+    async (req, res) => {
+      const userId = req.user?.id;
+      if (!userId) {
+        throw new UnauthorizedError({
+          code: "user-id-not-found-in-request",
+          message: "A user id wasn't found in the request object",
+        });
+      }
+
+      const { requestId } = req.params;
+      const { status } = req.body;
+      if (status === "accepted") {
+        const friendRequest = await acceptFriendRequestHandler({
+          database,
+          userId,
+          requestId,
+        });
+
+        return res.status(200).send(friendRequest);
+      }
+
+      if (status === "declined") {
+        const friendRequest = await declineFriendRequestHandler({
+          database,
+          userId,
+          requestId,
+        });
+
+        return res.status(200).send(friendRequest);
+      }
     },
   );
 };
