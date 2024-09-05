@@ -1,0 +1,21 @@
+meta {
+  name: Accept/Decline Friend Request
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:3000/friends/requests/:requestId
+  body: json
+  auth: inherit
+}
+
+params:path {
+  requestId: 7cf12e87-72f5-46b7-bfb4-99ae77b7912a
+}
+
+body:json {
+  {
+    "status": "accepted"
+  }
+}
