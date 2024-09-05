@@ -24,7 +24,13 @@ export const FriendWithUserSchema = FriendSchema.omit({
 });
 export type FriendWithUser = z.infer<typeof FriendWithUserSchema>;
 
-const FriendRequestStatusSchema = z.enum(["PENDING", "ACCEPTED", "DECLINED"]);
+export const FriendRequestStatusSchema = z.enum([
+  "PENDING",
+  "ACCEPTED",
+  "DECLINED",
+]);
+export type FriendRequestStatus = z.infer<typeof FriendRequestStatusSchema>;
+
 export const FriendRequestSchema = z.object({
   id: z.string().uuid(),
   senderId: z.string().uuid(),
@@ -34,6 +40,7 @@ export const FriendRequestSchema = z.object({
   updatedAt: z.string().datetime().nullable(),
   deletedAt: z.string().datetime().nullable(),
 });
+export type FriendRequest = z.infer<typeof FriendRequestSchema>;
 
 export const FriendRequestWithUserSchema = FriendRequestSchema.omit({
   senderId: true,
