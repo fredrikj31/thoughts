@@ -2,6 +2,7 @@ import { FastifyPluginAsync } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { validateJwt } from "../../hooks/validateJwt";
 import {
+  FriendRequestSchema,
   FriendRequestWithUserSchema,
   FriendWithUserSchema,
 } from "../../types/friend";
@@ -9,6 +10,8 @@ import { UnauthorizedError } from "../../errors/client";
 import { listFriendsHandler } from "./handlers/listFriends";
 import { ApiErrorSchema } from "../../types/error";
 import { listFriendRequestsHandler } from "./handlers/listFriendRequests";
+import z from "zod";
+import { createFriendRequestHandler } from "./handlers/createFriendRequest";
 
 export const friendsRoutes: FastifyPluginAsync = async (instance) => {
   const app = instance.withTypeProvider<ZodTypeProvider>();
@@ -98,6 +101,47 @@ export const friendsRoutes: FastifyPluginAsync = async (instance) => {
         userId,
       });
       return res.send([...userFriendRequests]);
+    },
+  );
+
+  app.post(
+    "/requests",
+    {
+      onRequest: validateJwt(),
+      schema: {
+        summary: "Creates a new friend request",
+        description: "Creates a new friend requests to another user.",
+        tags: ["friends"],
+        security: [
+          {
+            jwt: [""],
+          },
+        ],
+        body: z.object({
+          friendId: z.string().uuid(),
+        }),
+        response: {
+          "200": FriendRequestSchema,
+        },
+      },
+    },
+    async (req, res) => {
+      const userId = req.user?.id;
+      if (!userId) {
+        throw new UnauthorizedError({
+          code: "user-id-not-found-in-request",
+          message: "A user id wasn't found in the request object",
+        });
+      }
+
+      const { friendId } = req.body;
+      const friendRequest = await createFriendRequestHandler({
+        database,
+        userId,
+        friendId,
+      });
+
+      return res.status(200).send(friendRequest);
     },
   );
 };

@@ -1,0 +1,17 @@
+meta {
+  name: Create Friend Request
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/friends/requests
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "friendId": "7ecf1792-caba-4988-97f3-5a63ae5e489c"
+  }
+}

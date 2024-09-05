@@ -9,6 +9,7 @@ import { logger } from "./logger";
 import { BaseError } from "./errors";
 import { routes } from "./routes";
 import { databasePlugin } from "./services/database/client";
+import { ZodError } from "zod";
 
 const app: FastifyInstance = Fastify({
   logger: true,
@@ -44,6 +45,15 @@ app.setErrorHandler((error, _, res) => {
   // Catch all BaseErrors and send back their payload
   if (error instanceof BaseError) {
     return res.status(error.statusCode).send(error.toJSON());
+  }
+
+  // Catch Zod Type Provider errors and send back BadRequestError
+  if (error instanceof ZodError) {
+    return res.status(400).send({
+      code: "invalid-request-payload",
+      message: "Invalid payload sent with request",
+      issues: error.issues,
+    });
   }
 
   // If any other error occurs, catch it and return a fixed error message
