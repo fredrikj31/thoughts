@@ -28,6 +28,8 @@ export const getFriendRequestByFriendId = async (
         sender_id = ${userId}
       AND
         receiver_id = ${friendId}
+      AND
+        deleted_at IS NULL;
     `);
   } catch (error) {
     logger.error(error, "Error while listing user's sent friend requests.");
