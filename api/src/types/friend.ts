@@ -56,3 +56,18 @@ export const ReceivedFriendRequestWithUserSchema = FriendRequestSchema.omit({
 export type ReceivedFriendRequestWithUser = z.infer<
   typeof ReceivedFriendRequestWithUserSchema
 >;
+
+export const SentFriendRequestWithUserSchema = FriendRequestSchema.omit({
+  receiverId: true,
+}).extend({
+  receiver: UserSchema.omit({
+    password: true,
+    passwordSalt: true,
+    createdAt: true,
+    updatedAt: true,
+    deletedAt: true,
+  }),
+});
+export type SentFriendRequestWithUser = z.infer<
+  typeof SentFriendRequestWithUserSchema
+>;
