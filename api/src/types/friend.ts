@@ -42,7 +42,7 @@ export const FriendRequestSchema = z.object({
 });
 export type FriendRequest = z.infer<typeof FriendRequestSchema>;
 
-export const FriendRequestWithUserSchema = FriendRequestSchema.omit({
+export const ReceivedFriendRequestWithUserSchema = FriendRequestSchema.omit({
   senderId: true,
 }).extend({
   sender: UserSchema.omit({
@@ -53,4 +53,21 @@ export const FriendRequestWithUserSchema = FriendRequestSchema.omit({
     deletedAt: true,
   }),
 });
-export type FriendRequestWithUser = z.infer<typeof FriendRequestWithUserSchema>;
+export type ReceivedFriendRequestWithUser = z.infer<
+  typeof ReceivedFriendRequestWithUserSchema
+>;
+
+export const SentFriendRequestWithUserSchema = FriendRequestSchema.omit({
+  receiverId: true,
+}).extend({
+  receiver: UserSchema.omit({
+    password: true,
+    passwordSalt: true,
+    createdAt: true,
+    updatedAt: true,
+    deletedAt: true,
+  }),
+});
+export type SentFriendRequestWithUser = z.infer<
+  typeof SentFriendRequestWithUserSchema
+>;

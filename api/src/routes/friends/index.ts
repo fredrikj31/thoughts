@@ -3,18 +3,20 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { validateJwt } from "../../hooks/validateJwt";
 import {
   FriendRequestSchema,
-  FriendRequestWithUserSchema,
+  ReceivedFriendRequestWithUserSchema,
   FriendWithUserSchema,
+  SentFriendRequestWithUserSchema,
 } from "../../types/friend";
 import { UnauthorizedError } from "../../errors/client";
 import { listFriendsHandler } from "./handlers/listFriends";
 import { ApiErrorSchema } from "../../types/error";
-import { listFriendRequestsHandler } from "./handlers/listFriendRequests";
+import { listReceivedFriendRequestsHandler } from "./handlers/listReceivedFriendRequests";
 import z from "zod";
 import { createFriendRequestHandler } from "./handlers/createFriendRequest";
 import { deleteFriendRequestHandler } from "./handlers/deleteFriendRequest";
 import { acceptFriendRequestHandler } from "./handlers/acceptFriendRequest";
 import { declineFriendRequestHandler } from "./handlers/declineFriendRequest";
+import { listSentFriendRequestsHandler } from "./handlers/listSenTFriendRequests";
 
 export const friendsRoutes: FastifyPluginAsync = async (instance) => {
   const app = instance.withTypeProvider<ZodTypeProvider>();
@@ -65,12 +67,12 @@ export const friendsRoutes: FastifyPluginAsync = async (instance) => {
   );
 
   app.get(
-    "/requests",
+    "/requests/received",
     {
       onRequest: validateJwt(),
       schema: {
-        summary: "List user's friend requests",
-        description: "Lists user's friend requests from other users.",
+        summary: "List user's received friend requests",
+        description: "Lists user's received friend requests from other users.",
         tags: ["friends"],
         security: [
           {
@@ -78,8 +80,8 @@ export const friendsRoutes: FastifyPluginAsync = async (instance) => {
           },
         ],
         response: {
-          "200": FriendRequestWithUserSchema.array().describe(
-            "Returns a list of the user's friend requests from other users.",
+          "200": ReceivedFriendRequestWithUserSchema.array().describe(
+            "Returns a list of the user's received friend requests from other users.",
           ),
           "401": ApiErrorSchema.describe(
             "Either is the access token missing, or the user id wasn't found in the access token provided.",
@@ -99,11 +101,55 @@ export const friendsRoutes: FastifyPluginAsync = async (instance) => {
         });
       }
 
-      const userFriendRequests = await listFriendRequestsHandler({
+      const userReceivedFriendRequests =
+        await listReceivedFriendRequestsHandler({
+          database,
+          userId,
+        });
+      return res.send([...userReceivedFriendRequests]);
+    },
+  );
+
+  app.get(
+    "/requests/sent",
+    {
+      onRequest: validateJwt(),
+      schema: {
+        summary: "List user's sent friend requests",
+        description: "Lists user's sent friend requests from other users.",
+        tags: ["friends"],
+        security: [
+          {
+            jwt: [""],
+          },
+        ],
+        response: {
+          "200": SentFriendRequestWithUserSchema.array().describe(
+            "Returns a list of the user's sent friend requests from other users.",
+          ),
+          "401": ApiErrorSchema.describe(
+            "Either is the access token missing, or the user id wasn't found in the access token provided.",
+          ),
+          "500": ApiErrorSchema.describe(
+            "Unknown server error, see logs for more details.",
+          ),
+        },
+      },
+    },
+    async (req, res) => {
+      const userId = req.user?.id;
+      if (!userId) {
+        throw new UnauthorizedError({
+          code: "user-id-not-found-in-request",
+          message: "A user id wasn't found in the request object",
+        });
+      }
+
+      const userSentFriendRequests = await listSentFriendRequestsHandler({
         database,
         userId,
       });
-      return res.send([...userFriendRequests]);
+      return res.send([...userSentFriendRequests]);
     },
   );
 
