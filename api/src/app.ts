@@ -20,7 +20,7 @@ app
   .register(fastifySwaggerUi, swaggerUiConfig)
   .register(fastifyCors, {
     origin: config.website.baseUrl,
-    methods: ["GET", "POST", "PUT"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     maxAge: 86400,
     credentials: true,
   })

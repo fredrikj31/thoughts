@@ -8,6 +8,8 @@ import { Toaster } from "@shadcn-ui/components/ui/toaster";
 import { LoginPage } from "./routes/Login";
 import { AuthProvider } from "./providers/auth";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { FriendsPage } from "./routes/Friends";
+import { FriendRequestsPage } from "./routes/FriendRequests";
 
 export const App = () => {
   const queryClient = new QueryClient();
@@ -24,6 +26,22 @@ export const App = () => {
                   element={
                     <ProtectedRoute>
                       <HomePage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/friends"
+                  element={
+                    <ProtectedRoute>
+                      <FriendsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/friends/requests"
+                  element={
+                    <ProtectedRoute>
+                      <FriendRequestsPage />
                     </ProtectedRoute>
                   }
                 />

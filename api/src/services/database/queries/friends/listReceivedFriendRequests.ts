@@ -38,6 +38,8 @@ export const listReceivedFriendRequests = async (
       WHERE
         friend_requests.receiver_id = ${userId}
       AND
+        friend_requests.status = 'PENDING'
+      AND
         friend_requests.deleted_at IS NULL;
     `);
   } catch (error) {
