@@ -3,13 +3,13 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { validateJwt } from "../../hooks/validateJwt";
 import {
   FriendRequestSchema,
-  FriendRequestWithUserSchema,
+  ReceivedFriendRequestWithUserSchema,
   FriendWithUserSchema,
 } from "../../types/friend";
 import { UnauthorizedError } from "../../errors/client";
 import { listFriendsHandler } from "./handlers/listFriends";
 import { ApiErrorSchema } from "../../types/error";
-import { listFriendRequestsHandler } from "./handlers/listFriendRequests";
+import { listReceivedFriendRequestsHandler } from "./handlers/listReceivedFriendRequests";
 import z from "zod";
 import { createFriendRequestHandler } from "./handlers/createFriendRequest";
 import { deleteFriendRequestHandler } from "./handlers/deleteFriendRequest";
@@ -65,12 +65,12 @@ export const friendsRoutes: FastifyPluginAsync = async (instance) => {
   );
 
   app.get(
-    "/requests",
+    "/requests/received",
     {
       onRequest: validateJwt(),
       schema: {
-        summary: "List user's friend requests",
-        description: "Lists user's friend requests from other users.",
+        summary: "List user's received friend requests",
+        description: "Lists user's received friend requests from other users.",
         tags: ["friends"],
         security: [
           {
@@ -78,8 +78,8 @@ export const friendsRoutes: FastifyPluginAsync = async (instance) => {
           },
         ],
         response: {
-          "200": FriendRequestWithUserSchema.array().describe(
-            "Returns a list of the user's friend requests from other users.",
+          "200": ReceivedFriendRequestWithUserSchema.array().describe(
+            "Returns a list of the user's received friend requests from other users.",
           ),
           "401": ApiErrorSchema.describe(
             "Either is the access token missing, or the user id wasn't found in the access token provided.",
@@ -99,11 +99,12 @@ export const friendsRoutes: FastifyPluginAsync = async (instance) => {
         });
       }
 
-      const userFriendRequests = await listFriendRequestsHandler({
-        database,
-        userId,
-      });
-      return res.send([...userFriendRequests]);
+      const userReceivedFriendRequests =
+        await listReceivedFriendRequestsHandler({
+          database,
+          userId,
+        });
+      return res.send([...userReceivedFriendRequests]);
     },
   );
 

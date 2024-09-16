@@ -1,21 +1,21 @@
 import { CommonQueryMethods, sql } from "slonik";
 import {
-  FriendRequestWithUser,
-  FriendRequestWithUserSchema,
+  ReceivedFriendRequestWithUser,
+  ReceivedFriendRequestWithUserSchema,
 } from "../../../../types/friend";
 import { logger } from "../../../../logger";
 import { InternalServerError } from "../../../../errors/server";
 
-interface ListFriendRequestsOptions {
+interface ListReceivedFriendRequestsOptions {
   userId: string;
 }
 
-export const listFriendRequests = async (
+export const listReceivedFriendRequests = async (
   database: CommonQueryMethods,
-  { userId }: ListFriendRequestsOptions,
-): Promise<Readonly<FriendRequestWithUser[]>> => {
+  { userId }: ListReceivedFriendRequestsOptions,
+): Promise<Readonly<ReceivedFriendRequestWithUser[]>> => {
   try {
-    return await database.any(sql.type(FriendRequestWithUserSchema)`
+    return await database.any(sql.type(ReceivedFriendRequestWithUserSchema)`
       SELECT
         friend_requests.id as id,
         friend_requests.status as status,
@@ -43,12 +43,12 @@ export const listFriendRequests = async (
   } catch (error) {
     logger.error(
       error,
-      "Error while listing user's friend requests in database.",
+      "Error while listing user's received friend requests in database.",
     );
     throw new InternalServerError({
-      code: "unknown-error-listing-friend-requests",
+      code: "unknown-error-listing-received-friend-requests",
       message:
-        "Unknown error when trying to list user's friend requests from database",
+        "Unknown error when trying to list user's received friend requests from database",
     });
   }
 };
