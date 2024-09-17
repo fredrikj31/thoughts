@@ -75,3 +75,17 @@ ALTER TABLE ONLY friend_requests ADD CONSTRAINT friend_requests_id_primary_key P
 ALTER TABLE ONLY friend_requests ADD CONSTRAINT friend_requests_sender_id_references FOREIGN KEY(sender_id) REFERENCES users(id);
 ALTER TABLE ONLY friend_requests ADD CONSTRAINT friend_requests_receiver_id_references FOREIGN KEY(receiver_id) REFERENCES users(id);
 ---
+
+--- posts table
+CREATE TABLE IF NOT EXISTS posts (
+  id uuid NOT NULL,
+  user_id uuid NOT NULL,
+  content text NOT NULL,
+  created_at timestamp NOT NULL,
+  updated_at timestamp,
+  deleted_at timestamp
+);
+
+ALTER TABLE ONLY posts ADD CONSTRAINT posts_id_primary_key PRIMARY KEY (id);
+ALTER TABLE ONLY posts ADD CONSTRAINT posts_user_id_references FOREIGN KEY(user_id) REFERENCES users(id);
+---

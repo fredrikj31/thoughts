@@ -46,8 +46,11 @@ erDiagram
 
   posts {
     id uuid PK
-    username varchar(255)
-    email varchar(255)
+    user_id uuid FK
+    content text
+    created_at timestamp
+    updated_at timestamp "nullable"
+    deleted_at timestamp "nullable"
   }
 
   users ||--|{ refresh_tokens : user_id
@@ -55,4 +58,5 @@ erDiagram
   users ||--|{ friends : friend_id
   users ||--|{ friend_requests : sender_id
   users ||--|{ friend_requests : receiver_id
+  users ||--|{ posts : user_id
 ```
