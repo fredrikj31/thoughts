@@ -38,7 +38,7 @@ app
     dbName: config.database.name,
   })
   .after(() => {
-    app.register(routes);
+    app.register(routes, { prefix: "/api" });
   });
 
 app.setErrorHandler((error, _, res) => {
