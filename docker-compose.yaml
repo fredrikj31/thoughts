@@ -10,6 +10,8 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: thoughts
+    ports:
+      - 5432:5432
     networks:
       - thoughts-network
     volumes:
@@ -29,7 +31,7 @@ services:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
       DB_NAME: ${DB_NAME}
-      DB_USERNAME: ${DB_USERNAME}
+      DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
     networks:
       - thoughts-network
