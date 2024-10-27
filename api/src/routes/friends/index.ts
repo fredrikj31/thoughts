@@ -16,7 +16,7 @@ import { createFriendRequestHandler } from "./handlers/createFriendRequest";
 import { deleteFriendRequestHandler } from "./handlers/deleteFriendRequest";
 import { acceptFriendRequestHandler } from "./handlers/acceptFriendRequest";
 import { declineFriendRequestHandler } from "./handlers/declineFriendRequest";
-import { listSentFriendRequestsHandler } from "./handlers/listSenTFriendRequests";
+import { listSentFriendRequestsHandler } from "./handlers/listSentFriendRequests";
 
 export const friendsRoutes: FastifyPluginAsync = async (instance) => {
   const app = instance.withTypeProvider<ZodTypeProvider>();

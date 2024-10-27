@@ -64,15 +64,12 @@ app.setErrorHandler((error, _, res) => {
   });
 });
 
-app.listen(
-  { port: config.api.port, host: config.api.host },
-  (err: Error | null) => {
-    if (err) {
-      app.log.error(err);
-      process.exit(1);
-    }
-  },
-);
+app.listen({ host: "0.0.0.0", port: config.api.port }, (err: Error | null) => {
+  if (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+});
 
 process.on("SIGINT", () => {
   app.log.warn(`SIGINT signal detected, terminating service`);
