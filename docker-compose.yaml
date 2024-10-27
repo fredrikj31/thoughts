@@ -1,17 +1,60 @@
 services:
   database:
     container_name: thoughts-database
-    image: "postgres:16-alpine"
+    image: "postgres:17-alpine"
     restart: always
+    profiles:
+      - dev
+      - prod
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: thoughts
-    ports:
-      - 5432:5432
+    networks:
+      - thoughts-network
     volumes:
       - database-data:/var/lib/postgresql/data # store data from postgresql in the volume
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql # init database with SQL files from local "database" folder
+
+  backend:
+    container_name: thoughts-backend
+    image: fredrikj31/thoughts-backend:latest
+    restart: always
+    profiles:
+      - prod
+    environment:
+      WEBSITE_BASE_URL: ${WEBSITE_BASE_URL}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      PASSWORD_SALT: ${PASSWORD_SALT}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - thoughts-network
+      - cloudflared_tunnel
+    ports:
+      - 2001:3000
+
+  frontend:
+    container_name: thoughts-frontend
+    image: fredrikj31/thoughts-frontend:latest
+    restart: always
+    profiles:
+      - prod
+    environment:
+      MY_APP_API_BASE_URL: ${MY_APP_API_BASE_URL}
+    networks:
+      - cloudflared_tunnel
+    ports:
+      - 2002:80
+
+networks:
+  thoughts-network:
+    driver: bridge
+  cloudflared_tunnel:
+    external: true
 
 volumes:
   database-data:
