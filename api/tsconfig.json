@@ -1,4 +1,9 @@
 {
   "extends": ["@thoughts/typescript-config/api-tsconfig.json"],
-  "include": ["./src"]
+  "include": ["./src"],
+  "compilerOptions": {
+    "outDir": "build",
+    "declaration": false,
+    "declarationMap": false
+  }
 }

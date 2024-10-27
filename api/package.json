@@ -2,7 +2,8 @@
   "name": "@thoughts/api",
   "scripts": {
     "dev": "tsx watch src/app.ts | pino-pretty",
-    "build": "tsc --noEmit",
+    "build": "tsc",
+    "tsc": "tsc --noEmit",
     "start": "node build/index.js",
     "lint": "eslint . --max-warnings 0"
   },
