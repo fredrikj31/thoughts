@@ -5,7 +5,8 @@
     "build": "tsc",
     "tsc": "tsc --noEmit",
     "start": "node build/app.js",
-    "lint": "eslint . --max-warnings 0"
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier . --check"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
@@ -13,6 +14,7 @@
     "@types/node": "^22.5.0",
     "eslint": "^8.57.0",
     "pino-pretty": "^11.2.2",
+    "prettier": "^3.3.3",
     "tsx": "^4.18.0",
     "typescript": "^5.5.4"
   },
