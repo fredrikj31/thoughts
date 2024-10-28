@@ -5,14 +5,13 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier . --check",
+    "format": "turbo format",
     "prepare": "husky"
   },
   "devDependencies": {
     "@thoughts/eslint-config": "workspace:*",
     "@thoughts/typescript-config": "workspace:*",
     "husky": "^9.1.5",
-    "prettier": "^3.3.3",
     "turbo": "^2.1.0"
   },
   "packageManager": "pnpm@9.1.4",
