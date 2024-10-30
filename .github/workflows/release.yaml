@@ -29,7 +29,7 @@ jobs:
 
       - id: file-changes-api
         run: |
-          if pnpm dlx turbo-ignore @thoughts/api; then
+          if pnpm dlx turbo-ignore --fallback ${{ github.ref_name }} @thoughts/api; then
             echo "CONTINUE=0" >> "$GITHUB_OUTPUT"
           else
             echo "CONTINUE=1" >> "$GITHUB_OUTPUT"
@@ -37,7 +37,7 @@ jobs:
 
       - id: file-changes-app
         run: |
-          if pnpm dlx turbo-ignore @thoughts/app; then
+          if pnpm dlx turbo-ignore --fallback ${{ github.ref_name }} @thoughts/app; then
             echo "CONTINUE=0" >> "$GITHUB_OUTPUT"
           else
             echo "CONTINUE=1" >> "$GITHUB_OUTPUT"
