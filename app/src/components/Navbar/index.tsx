@@ -75,11 +75,11 @@ export const Navbar = () => {
 
   return (
     <div className="w-full justify-between py-7 flex flex-row">
-      <div className="flex flex-row gap-4 mg:gap-16 items-center">
+      <div className="flex flex-row gap-4 mg:gap-16 justify-between items-center">
         {/* Mobile Navbar */}
         <Sheet>
-          <SheetTrigger>
-            <Bars3Icon className="size-10 block mg:hidden" />
+          <SheetTrigger className="size-10 block mg:hidden">
+            <Bars3Icon />
           </SheetTrigger>
           <SheetContent side="left">
             <SheetHeader>
