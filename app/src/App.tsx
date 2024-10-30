@@ -9,7 +9,6 @@ import { LoginPage } from "./routes/Login";
 import { AuthProvider } from "./providers/auth";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { FriendsPage } from "./routes/Friends";
-import { FriendRequestsPage } from "./routes/FriendRequests";
 
 export const App = () => {
   const queryClient = new QueryClient();
@@ -34,14 +33,6 @@ export const App = () => {
                   element={
                     <ProtectedRoute>
                       <FriendsPage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/friends/requests"
-                  element={
-                    <ProtectedRoute>
-                      <FriendRequestsPage />
                     </ProtectedRoute>
                   }
                 />
