@@ -14,7 +14,7 @@ import { useDeleteFriendRequest } from "../../../../api/friends/deleteFriendRequ
 import { SentRequestsTab } from "./components/SentRequestsTab";
 
 export const FriendsTabs = () => {
-  const { data: friends } = useListFriends();
+  const { data: friends, refetch: refetchFriends } = useListFriends();
 
   const {
     data: receivedFriendRequests,
@@ -50,7 +50,14 @@ export const FriendsTabs = () => {
           acceptOrDeclineFriendRequest={({ requestId, status }) => {
             acceptOrDeclineFriendRequest(
               { requestId, status },
-              { onSuccess: () => refetchReceivedFriendRequests() },
+              {
+                onSuccess: () => {
+                  refetchReceivedFriendRequests();
+                  if (status === "accepted") {
+                    refetchFriends();
+                  }
+                },
+              },
             );
           }}
         />
