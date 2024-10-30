@@ -23,7 +23,7 @@ DB_PASSWORD=password # For local development
 DB_NAME=thoughts
 
 # Website
-VITE_API_BASE_URL=http://localhost:3000
+VITE_API_BASE_URL=http://localhost:3000/api
 
 # API
 WEBSITE_BASE_URL=http://localhost:5173
