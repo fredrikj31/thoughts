@@ -35,7 +35,7 @@ export const HomePage = () => {
       {
         onError: () => {
           toast({
-            title: "Error :(",
+            title: "Error",
             description: "Error while posting your post",
             variant: "destructive",
           });
