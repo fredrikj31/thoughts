@@ -8,7 +8,17 @@ concurrency:
   group: ${{ github.workflow }}
 
 jobs:
+  get-previous-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      previous-tag: ${{ steps.get-previous-tag.outputs.PREVIOUS_TAG }}
+    steps:
+      - id: get-previous-tag
+        run: |
+          git describe --tags --abbrev=0 ${{ github.ref_name }}^ >> "$PREVIOUS_TAG"
+
   file-changes:
+    needs: [get-previous-tag]
     runs-on: ubuntu-latest
     outputs:
       file-changes-backend: ${{ steps.file-changes-api.outputs.CONTINUE }}
@@ -29,7 +39,7 @@ jobs:
 
       - id: file-changes-api
         run: |
-          if pnpm dlx turbo-ignore --fallback ${{ github.ref_name }} @thoughts/api; then
+          if pnpm dlx turbo-ignore --fallback ${{ needs.get-previous-tag.outputs.previous-tag }} @thoughts/api; then
             echo "CONTINUE=0" >> "$GITHUB_OUTPUT"
           else
             echo "CONTINUE=1" >> "$GITHUB_OUTPUT"
@@ -37,7 +47,7 @@ jobs:
 
       - id: file-changes-app
         run: |
-          if pnpm dlx turbo-ignore --fallback ${{ github.ref_name }} @thoughts/app; then
+          if pnpm dlx turbo-ignore --fallback ${{ needs.get-previous-tag.outputs.previous-tag }} @thoughts/app; then
             echo "CONTINUE=0" >> "$GITHUB_OUTPUT"
           else
             echo "CONTINUE=1" >> "$GITHUB_OUTPUT"
