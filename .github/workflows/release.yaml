@@ -15,7 +15,7 @@ jobs:
     steps:
       - id: get-previous-tag
         run: |
-          git describe --tags --abbrev=0 ${{ github.ref_name }}^ >> "$PREVIOUS_TAG"
+          echo "PREVIOUS_TAG=$(git describe --tags --abbrev=0 ${{ github.ref_name }}^)" >> "$GITHUB_OUTPUT"
 
   file-changes:
     needs: [get-previous-tag]
