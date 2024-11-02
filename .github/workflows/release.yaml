@@ -16,6 +16,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: list tags
+        run: |
+          git tag
+
       - id: get-previous-tag
         run: |
           echo "PREVIOUS_TAG=$(git describe --tags --abbrev=0 ${{ github.ref_name }}^)" >> "$GITHUB_OUTPUT"
