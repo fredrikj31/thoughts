@@ -11,8 +11,14 @@ import {
 } from "@shadcn-ui/components/ui/card";
 import { Link } from "react-router-dom";
 import { Heart, MessageSquareText, ThumbsUp } from "lucide-react";
+import { PostWithUser } from "../../types/post";
+import { formatRelative } from "date-fns";
 
-export const Post = () => {
+interface PostProps {
+  post: PostWithUser;
+}
+
+export const Post = ({ post }: PostProps) => {
   return (
     <Card>
       <CardHeader>
@@ -23,21 +29,21 @@ export const Post = () => {
           </Avatar>
           <div className="flex flex-col">
             <Link
-              to={"/profile/uggabugga"}
+              to={`/profile/${post.user.username}`}
               className="font-semibold text-base hover:text-zinc-300"
             >
-              John Doe (@johndoe)
+              {post.user.firstName} {post.user.lastName} (@{post.user.username})
             </Link>
-            <span className="text-sm text-zinc-400">2024-05-09 - 14:47</span>
+            <span className="text-sm text-zinc-400">
+              {formatRelative(post.updatedAt ?? post.createdAt, new Date(), {
+                weekStartsOn: 1,
+              })}
+            </span>
           </div>
         </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent erat
-          diam, vestibulum id hendrerit eget, congue gravida diam. Maecenas
-          cursus pulvinar risus, vel tincidunt lectus pellentesque at.
-        </p>
+        <p>{post.content}</p>
         <div className="flex flex-row justify-evenly gap-4 w-full flex-wrap">
           <img
             className="size-full rounded-lg aspect-video flex-[1_0_40%]"

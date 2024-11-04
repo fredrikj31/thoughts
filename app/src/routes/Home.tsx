@@ -13,12 +13,14 @@ import { Button } from "@shadcn-ui/components/ui/button";
 import { useState } from "react";
 import { useCreatePost } from "../api/posts/createPost/useCreatePost";
 import { useToast } from "@shadcn-ui/components/ui/use-toast";
+import { useListPosts } from "../api/posts/listPosts/useListPosts";
 
 export const HomePage = () => {
   const maxPostContentLength = 500;
   const [content, setContent] = useState<string>("");
   const { toast } = useToast();
 
+  const { data: posts } = useListPosts();
   const { mutate: createPost } = useCreatePost();
 
   const createPostAction = () => {
@@ -76,7 +78,7 @@ export const HomePage = () => {
       {/* Feed */}
       <div className="flex flex-col self-center max-w-3xl gap-4">
         {/* Post */}
-        <Post />
+        {posts?.map((post) => <Post key={post.id} post={post} />)}
       </div>
     </div>
   );
