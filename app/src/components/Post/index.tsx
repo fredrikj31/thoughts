@@ -1,13 +1,4 @@
 import {
-  HandThumbUpIcon as SolidHandThumbUpIcon,
-  HeartIcon as SolidHeartIcon,
-  ChatBubbleLeftRightIcon,
-} from "@heroicons/react/24/solid";
-import {
-  HandThumbUpIcon as OutlineHandThumbUpIcon,
-  HeartIcon as OutlineHeartIcon,
-} from "@heroicons/react/24/outline";
-import {
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -19,6 +10,7 @@ import {
   CardHeader,
 } from "@shadcn-ui/components/ui/card";
 import { Link } from "react-router-dom";
+import { Heart, MessageSquareText, ThumbsUp } from "lucide-react";
 
 export const Post = () => {
   return (
@@ -60,17 +52,17 @@ export const Post = () => {
       <CardFooter className="flex flex-row justify-between">
         <div className="flex flex-row gap-2">
           <button className="group">
-            <OutlineHandThumbUpIcon className="size-6 block group-hover:hidden" />
-            <SolidHandThumbUpIcon className="size-6 hidden group-hover:block" />
+            <ThumbsUp className="size-6 group-hover:text-zinc-600 dark:group-hover:text-zinc-300" />
           </button>
           <button className="group">
-            <OutlineHeartIcon className="size-6 block group-hover:hidden" />
-            <SolidHeartIcon className="size-6 hidden group-hover:block" />
+            <Heart className="size-6 group-hover:text-zinc-600 dark:group-hover:text-zinc-300" />
           </button>
         </div>
         <Link to={`/post/uggabugga`} className="group flex flex-row gap-2">
-          <ChatBubbleLeftRightIcon className="size-6 group-hover:text-zinc-300" />
-          <span className="group-hover:text-zinc-300">2 comments</span>
+          <MessageSquareText className="size-6 group-hover:text-zinc-600 dark:group-hover:text-zinc-300" />
+          <span className="group-hover:text-zinc-600 dark:group-hover:text-zinc-300">
+            2 comments
+          </span>
         </Link>
       </CardFooter>
     </Card>

@@ -1,10 +1,4 @@
 import {
-  UsersIcon,
-  HomeIcon,
-  BellIcon,
-  EnvelopeIcon,
-} from "@heroicons/react/24/outline";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -17,7 +11,6 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@shadcn-ui/components/ui/avatar";
-import { Bars3Icon } from "@heroicons/react/24/solid";
 import {
   Sheet,
   SheetContent,
@@ -31,6 +24,7 @@ import { useTheme } from "../../providers/theme";
 import { ThemeToggler } from "./components/ThemeToggler";
 import { useAuth } from "../../providers/auth";
 import { useGetLoggedInUser } from "../../api/users/getLoggedInUser/useGetLoggedInUser";
+import { Bell, House, Mail, Menu, Users } from "lucide-react";
 
 export const Navbar = () => {
   const { logout } = useAuth();
@@ -54,22 +48,22 @@ export const Navbar = () => {
     {
       text: "Home",
       path: "/",
-      icon: <HomeIcon className="size-5 group-hover:text-zinc-300" />,
+      icon: <House className="size-5 group-hover:text-zinc-300" />,
     },
     {
       text: "Friends",
       path: "/friends",
-      icon: <UsersIcon className="size-5 group-hover:text-zinc-300" />,
+      icon: <Users className="size-5 group-hover:text-zinc-300" />,
     },
     {
       text: "Messages",
       path: "/messages",
-      icon: <EnvelopeIcon className="size-5 group-hover:text-zinc-300" />,
+      icon: <Mail className="size-5 group-hover:text-zinc-300" />,
     },
     {
       text: "Activity",
       path: "/activity",
-      icon: <BellIcon className="size-5 group-hover:text-zinc-300" />,
+      icon: <Bell className="size-5 group-hover:text-zinc-300" />,
     },
   ];
 
@@ -79,7 +73,7 @@ export const Navbar = () => {
         {/* Mobile Navbar */}
         <Sheet>
           <SheetTrigger className="size-10 block mg:hidden">
-            <Bars3Icon />
+            <Menu />
           </SheetTrigger>
           <SheetContent side="left">
             <SheetHeader>

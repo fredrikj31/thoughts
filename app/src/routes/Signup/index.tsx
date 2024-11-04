@@ -9,12 +9,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@shadcn-ui/components/ui/select";
-import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { DateTime } from "luxon";
 import { Checkbox } from "@shadcn-ui/components/ui/checkbox";
 import { useToast } from "@shadcn-ui/components/ui/use-toast";
 import { useAuth } from "../../providers/auth";
+import { MessageCircle } from "lucide-react";
 
 export const SignupPage = () => {
   const { toast } = useToast();
@@ -62,7 +62,7 @@ export const SignupPage = () => {
     <div className="min-h-screen grid grid-cols-2">
       <div className="bg-zinc-200 dark:bg-zinc-900 w-full p-16 flex flex-col justify-between">
         <div className="flex flex-row items-center gap-2">
-          <ChatBubbleLeftRightIcon className="size-12 text-black dark:text-white" />
+          <MessageCircle className="size-12 text-black dark:text-white" />
           <h1 className="text-5xl font-semibold">Thoughts</h1>
         </div>
         <div className="flex flex-col gap-1">
