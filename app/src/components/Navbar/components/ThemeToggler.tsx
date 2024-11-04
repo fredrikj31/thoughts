@@ -1,4 +1,4 @@
-import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "../../../providers/theme";
 
 interface ThemeTogglerProps {
@@ -14,9 +14,9 @@ export const ThemeToggler = ({ onClick }: ThemeTogglerProps) => {
       onClick={onClick}
     >
       {theme === "light" ? (
-        <MoonIcon className="size-6 text-neutral-50 dark:text-zinc-950" />
+        <Moon className="size-6 text-neutral-50 dark:text-zinc-950" />
       ) : (
-        <SunIcon className="size-6 text-neutral-50 dark:text-zinc-950" />
+        <Sun className="size-6 text-neutral-50 dark:text-zinc-950" />
       )}
     </button>
   );
