@@ -49,7 +49,7 @@ export const postsRoutes: FastifyPluginAsync = async (instance) => {
 
       const { content } = req.body;
 
-      const post = await createPostHandler({ database, userId, content });
+      const post = await createPostHandler(database, { userId, content });
       return res.send(post);
     },
   );
