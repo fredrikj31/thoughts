@@ -23,3 +23,13 @@ export const PostWithUserSchema = PostSchema.omit({
   }),
 });
 export type PostWithUser = z.infer<typeof PostWithUserSchema>;
+
+export const PostLikeSchema = z.object({
+  id: z.string().uuid(),
+  postId: z.string().uuid(),
+  userId: z.string().uuid(),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime().nullable(),
+  deletedAt: z.string().datetime().nullable(),
+});
+export type PostLike = z.infer<typeof PostLikeSchema>;
