@@ -89,3 +89,18 @@ CREATE TABLE IF NOT EXISTS posts (
 ALTER TABLE ONLY posts ADD CONSTRAINT posts_id_primary_key PRIMARY KEY (id);
 ALTER TABLE ONLY posts ADD CONSTRAINT posts_user_id_references FOREIGN KEY(user_id) REFERENCES users(id);
 ---
+
+--- likes table
+CREATE TABLE IF NOT EXISTS likes (
+  id uuid NOT NULL,
+  post_id uuid NOT NULL,
+  user_id uuid NOT NULL,
+  created_at timestamp NOT NULL,
+  updated_at timestamp,
+  deleted_at timestamp
+);
+
+ALTER TABLE ONLY likes ADD CONSTRAINT likes_id_primary_key PRIMARY KEY (id);
+ALTER TABLE ONLY likes ADD CONSTRAINT likes_post_id_references FOREIGN KEY(post_id) REFERENCES posts(id);
+ALTER TABLE ONLY likes ADD CONSTRAINT likes_user_id_references FOREIGN KEY(user_id) REFERENCES users(id);
+---
