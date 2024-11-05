@@ -103,4 +103,5 @@ CREATE TABLE IF NOT EXISTS likes (
 ALTER TABLE ONLY likes ADD CONSTRAINT likes_id_primary_key PRIMARY KEY (id);
 ALTER TABLE ONLY likes ADD CONSTRAINT likes_post_id_references FOREIGN KEY(post_id) REFERENCES posts(id);
 ALTER TABLE ONLY likes ADD CONSTRAINT likes_user_id_references FOREIGN KEY(user_id) REFERENCES users(id);
+ALTER TABLE ONLY likes ADD CONSTRAINT likes_post_id_user_id_unique_key UNIQUE (post_id, user_id);
 ---
