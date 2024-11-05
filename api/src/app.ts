@@ -56,6 +56,14 @@ app.setErrorHandler((error, _, res) => {
     });
   }
 
+  if (error.code === "FST_ERR_VALIDATION") {
+    return res.status(400).send({
+      code: "invalid-request-payload",
+      message: "Invalid payload sent with request",
+      issues: error.validation?.[0]?.params.issue,
+    });
+  }
+
   // If any other error occurs, catch it and return a fixed error message
   logger.fatal({ error }, "Unknown error occurred");
   return res.status(500).send({
