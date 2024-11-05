@@ -53,10 +53,21 @@ erDiagram
     deleted_at timestamp "nullable"
   }
 
+  likes {
+    id uuid PK
+    post_id uuid FK
+    user_id uuid FK
+    created_at timestamp
+    updated_at timestamp "nullable"
+    deleted_at timestamp "nullable"
+  }
+
   users ||--|{ refresh_tokens : user_id
   users ||--|{ friends : user_id
   users ||--|{ friends : friend_id
   users ||--|{ friend_requests : sender_id
   users ||--|{ friend_requests : receiver_id
   users ||--|{ posts : user_id
+  users ||--|{ likes : user_id
+  posts ||--|{ likes : post_id
 ```
