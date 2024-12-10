@@ -1,10 +1,25 @@
 services:
-  database:
+  local-database:
     container_name: thoughts-database
     image: "postgres:17-alpine"
     restart: always
     profiles:
       - dev
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: thoughts
+    ports:
+      - 5432:5432
+    volumes:
+      - database-data:/var/lib/postgresql/data # store data from postgresql in the volume
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql # init database with SQL files from local "database" folder
+
+  database:
+    container_name: thoughts-database
+    image: "postgres:17-alpine"
+    restart: always
+    profiles:
       - prod
     environment:
       POSTGRES_USER: ${DB_USER}
