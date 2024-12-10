@@ -13,6 +13,7 @@ import { ApiErrorSchema } from "../../types/error";
 import { listPostsHandler } from "./handlers/listPosts";
 import { likePostHandler } from "./handlers/likePost";
 import { unlikePostHandler } from "./handlers/unlikePost";
+import { deletePostHandler } from "./handlers/deletePost";
 
 export const postsRoutes: FastifyPluginAsync = async (instance) => {
   const app = instance.withTypeProvider<ZodTypeProvider>();
@@ -99,6 +100,49 @@ export const postsRoutes: FastifyPluginAsync = async (instance) => {
 
       const posts = await listPostsHandler(database, { userId });
       return res.send(posts);
+    },
+  );
+
+  app.delete(
+    "/:postId",
+    {
+      onRequest: validateJwt(),
+      schema: {
+        summary: "Deletes posts for a specific user",
+        description: "Deletes a specific post from a user",
+        tags: ["posts"],
+        security: [
+          {
+            jwt: [""],
+          },
+        ],
+        params: z.object({
+          postId: z.string().uuid(),
+        }),
+        response: {
+          "200": PostSchema.describe("Returns deleted post"),
+          "401": ApiErrorSchema.describe(
+            "Either is the access token missing, or the user id wasn't found in the access token provided.",
+          ),
+          "500": ApiErrorSchema.describe(
+            "Unknown server error, see logs for more details.",
+          ),
+        },
+      },
+    },
+    async (req, res) => {
+      const userId = req.user?.id;
+      if (!userId) {
+        throw new UnauthorizedError({
+          code: "user-id-not-found-in-request",
+          message: "A user id wasn't found in the request object",
+        });
+      }
+
+      const { postId } = req.params;
+
+      const deletedPost = await deletePostHandler(database, { userId, postId });
+      return res.send(deletedPost);
     },
   );
 
