@@ -76,7 +76,7 @@ export const HomePage = () => {
         </Card>
       </div>
       {/* Feed */}
-      <div className="flex flex-col self-center max-w-3xl gap-4">
+      <div className="flex flex-col self-center max-w-3xl w-full gap-4">
         {/* Post */}
         {posts?.map((post) => <Post key={post.id} post={post} />)}
       </div>
