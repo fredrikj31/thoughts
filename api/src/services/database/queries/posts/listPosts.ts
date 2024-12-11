@@ -34,8 +34,13 @@ export const listPosts = async (
           JOIN friends ON friends.friend_id = posts.user_id
           JOIN users ON users.id = posts.user_id
         WHERE
-          friends.user_id = ${userId}
-          OR posts.user_id = ${userId}
+          (
+            friends.user_id = ${userId}
+            OR 
+            posts.user_id = ${userId}
+          )
+        AND
+          posts.deleted_at IS NULL
         ORDER BY
           posts.created_at DESC;
       `,
