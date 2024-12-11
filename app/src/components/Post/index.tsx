@@ -10,18 +10,62 @@ import {
   CardHeader,
 } from "@shadcn-ui/components/ui/card";
 import { Link } from "react-router-dom";
-import { Heart, MessageSquareText, ThumbsUp } from "lucide-react";
+import {
+  Heart,
+  MessageSquareText,
+  ThumbsUp,
+  EllipsisVertical,
+  Trash2,
+} from "lucide-react";
 import { PostWithUser } from "../../types/post";
 import { formatRelative } from "date-fns";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@shadcn-ui/components/ui/popover";
+import { Button } from "@shadcn-ui/components/ui/button";
+import { useDeletePost } from "../../api/posts/deletePost/useDeletePost";
+import { useToast } from "@shadcn-ui/components/ui/use-toast";
+import { useAuth } from "../../providers/auth";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface PostProps {
   post: PostWithUser;
 }
 
 export const Post = ({ post }: PostProps) => {
+  const queryClient = useQueryClient();
+  const { userId } = useAuth();
+  const { toast } = useToast();
+  const { mutate: deletePost } = useDeletePost();
+
+  const deletePostAction = () => {
+    deletePost(
+      { postId: post.id },
+      {
+        onError: () => {
+          toast({
+            title: "Error",
+            description: "Error while deleting your post",
+            variant: "destructive",
+          });
+        },
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["posts"] });
+          toast({
+            title: "Success",
+            description: "Successfully deleted your post",
+            variant: "default",
+          });
+        },
+      },
+    );
+  };
+
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="flex flex-row justify-between">
         <div className="flex flex-row items-center gap-2">
           <Avatar className="size-10">
             <AvatarImage src="https://github.com/shadcn.png" />
@@ -41,6 +85,23 @@ export const Post = ({ post }: PostProps) => {
             </span>
           </div>
         </div>
+        {userId === post.user.id && (
+          <Popover>
+            <PopoverTrigger>
+              <EllipsisVertical />
+            </PopoverTrigger>
+            <PopoverContent className="flex flex-col gap-2 w-fit !p-2">
+              <Button
+                className="size-10"
+                variant={"destructive"}
+                title="Delete"
+                onClick={deletePostAction}
+              >
+                <Trash2 />
+              </Button>
+            </PopoverContent>
+          </Popover>
+        )}
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <p>{post.content}</p>
