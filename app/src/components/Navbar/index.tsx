@@ -25,6 +25,7 @@ import { ThemeToggler } from "./components/ThemeToggler";
 import { useAuth } from "../../providers/auth";
 import { useGetLoggedInUser } from "../../api/users/getLoggedInUser/useGetLoggedInUser";
 import { Bell, House, Mail, Menu, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const { logout } = useAuth();
@@ -130,9 +131,11 @@ export const Navbar = () => {
             <DropdownMenuItem className="hover:cursor-pointer">
               Account
             </DropdownMenuItem>
-            <DropdownMenuItem className="hover:cursor-pointer">
-              Settings
-            </DropdownMenuItem>
+            <Link to={"/settings"}>
+              <DropdownMenuItem className="hover:cursor-pointer">
+                Settings
+              </DropdownMenuItem>
+            </Link>
             <DropdownMenuItem
               className="hover:cursor-pointer"
               onClick={() => logout()}
