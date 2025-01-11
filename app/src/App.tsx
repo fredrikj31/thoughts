@@ -9,6 +9,7 @@ import { LoginPage } from "./routes/Login";
 import { AuthProvider } from "./providers/auth";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { FriendsPage } from "./routes/Friends";
+import { SettingsPage } from "./routes/Settings";
 
 export const App = () => {
   const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ export const App = () => {
                     </ProtectedRoute>
                   }
                 />
+                <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/landing" element={<LandingPage />} />
