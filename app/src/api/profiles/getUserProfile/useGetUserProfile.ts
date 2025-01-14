@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { getLoggedInUser } from ".";
+import { getUserProfile } from ".";
 
-export const useGetLoggedInUser = () => {
+export const useGetUserProfile = () => {
   return useQuery({
-    queryKey: ["users", "me"],
+    queryKey: ["profiles", "me"],
     staleTime: 60 * 1000, // 60 Seconds
     queryFn: () => {
-      return getLoggedInUser();
+      return getUserProfile();
     },
     retry: false,
   });
