@@ -9,12 +9,14 @@ import { actionRoutes } from "./actions";
 import { usersRoutes } from "./users";
 import { friendsRoutes } from "./friends";
 import { postsRoutes } from "./posts";
+import { accountsRoutes } from "./accounts";
 
 export const routes: FastifyPluginAsync = async (instance) => {
   instance.setValidatorCompiler(validatorCompiler);
   instance.setSerializerCompiler(serializerCompiler);
 
   instance.register(actionRoutes, { prefix: "/" });
+  instance.register(accountsRoutes, { prefix: "/accounts" });
   instance.register(usersRoutes, { prefix: "/users" });
   instance.register(friendsRoutes, { prefix: "/friends" });
   instance.register(postsRoutes, { prefix: "/posts" });
