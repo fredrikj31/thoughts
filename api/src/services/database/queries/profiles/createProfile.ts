@@ -1,43 +1,34 @@
 import { CommonQueryMethods, sql } from "slonik";
-import { User, UserSchema } from "../../../types/user";
-import { InternalServerError } from "../../../errors/server";
-import { logger } from "../../../logger";
+import { Profile, ProfileSchema } from "../../../../types/profiles";
+import { InternalServerError } from "../../../../errors/server";
+import { logger } from "../../../../logger";
 
-interface CreateUserOptions {
+interface CreateProfileOptions {
   userId: string;
   username: string;
-  email: string;
-  hashedPassword: string;
-  passwordSalt: string;
   firstName: string;
   lastName: string;
   birthDate: string;
   gender: string;
 }
 
-export const createUser = async (
+export const createProfile = async (
   database: CommonQueryMethods,
   {
     userId,
     username,
-    email,
-    hashedPassword,
-    passwordSalt,
     firstName,
     lastName,
     birthDate,
     gender,
-  }: CreateUserOptions,
-): Promise<User> => {
+  }: CreateProfileOptions,
+): Promise<Profile> => {
   try {
-    return await database.one(sql.type(UserSchema)`
+    return await database.one(sql.type(ProfileSchema)`
       INSERT INTO
-        users (
-          id,
+        profiles (
+          user_id,
           username,
-          email,
-          password,
-          password_salt,
           first_name,
           last_name,
           birth_date,
@@ -50,9 +41,6 @@ export const createUser = async (
         (
           ${userId},
           ${username},
-          ${email},
-          ${hashedPassword},
-          ${passwordSalt},
           ${firstName},
           ${lastName},
           ${birthDate},
@@ -64,10 +52,10 @@ export const createUser = async (
       RETURNING *;
     `);
   } catch (error) {
-    logger.error({ error }, "Error while creating user in database.");
+    logger.error({ error }, "Error while creating profile in database.");
     throw new InternalServerError({
-      code: "unknown-error-creating-new-user",
-      message: "Unknown error when trying to create user",
+      code: "unknown-error-creating-profile",
+      message: "Unknown error when trying to create profile",
     });
   }
 };

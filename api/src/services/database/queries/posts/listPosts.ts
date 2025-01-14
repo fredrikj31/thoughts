@@ -21,18 +21,17 @@ export const listPosts = async (
           posts.updated_at,
           posts.deleted_at,
           json_build_object(
-            'id', users.id,
-            'username', users.username,
-            'email', users.email,
-            'firstName', users.first_name,
-            'lastName', users.last_name,
-            'birthDate', users.birth_date,
-            'gender', users.gender
+            'userId', profiles.user_id,
+            'username', profiles.username,
+            'firstName', profiles.first_name,
+            'lastName', profiles.last_name,
+            'birthDate', profiles.birth_date,
+            'gender', profiles.gender
           ) as user
         FROM
           posts
           JOIN friends ON friends.friend_id = posts.user_id
-          JOIN users ON users.id = posts.user_id
+          JOIN profiles ON profiles.user_id = posts.user_id
         WHERE
           (
             friends.user_id = ${userId}

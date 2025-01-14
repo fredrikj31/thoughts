@@ -3,12 +3,12 @@ import {
   NotFoundError as SlonikNotFoundError,
   sql,
 } from "slonik";
-import { generateHash } from "../../../helpers/generateHash";
-import { User, UserSchema } from "../../../types/user";
-import { config } from "../../../config";
-import { logger } from "../../../logger";
-import { InternalServerError } from "../../../errors/server";
-import { NotFoundError, UnauthorizedError } from "../../../errors/client";
+import { generateHash } from "../../../../helpers/generateHash";
+import { config } from "../../../../config";
+import { logger } from "../../../../logger";
+import { InternalServerError } from "../../../../errors/server";
+import { NotFoundError, UnauthorizedError } from "../../../../errors/client";
+import { AccountSchema, Account } from "../../../../types/account";
 
 interface LoginUserOptions {
   email: string;
@@ -18,14 +18,14 @@ interface LoginUserOptions {
 export const loginUser = async (
   database: CommonQueryMethods,
   { email, password }: LoginUserOptions,
-): Promise<User> => {
+): Promise<Account> => {
   const user = await database
     .one(
-      sql.type(UserSchema)`
+      sql.type(AccountSchema)`
       SELECT
         *
       FROM
-        users
+        accounts
       WHERE
         email = ${email};
     `,
