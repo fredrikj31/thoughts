@@ -24,17 +24,16 @@ export const listReceivedFriendRequests = async (
         friend_requests.updated_at as updated_at,
         friend_requests.deleted_at as deleted_at,
         json_build_object(
-          'id', users.id,
-          'username', users.username,
-          'email', users.email,
-          'firstName', users.first_name,
-          'lastName', users.last_name,
-          'birthDate', users.birth_date,
-          'gender', users.gender
+          'userId', profiles.user_id,
+          'username', profiles.username,
+          'firstName', profiles.first_name,
+          'lastName', profiles.last_name,
+          'birthDate', profiles.birth_date,
+          'gender', profiles.gender
         ) as sender
       FROM
         friend_requests
-        JOIN users ON friend_requests.sender_id = users.id
+        JOIN profiles ON friend_requests.sender_id = profiles.user_id
       WHERE
         friend_requests.receiver_id = ${userId}
       AND

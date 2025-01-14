@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { signupUser } from ".";
-import { User } from "../../../types/user";
+import { Profile } from "../../../types/profile";
 
 export const useSignupUser = () => {
   return useMutation({
-    mutationFn: (user: Omit<User, "id">) => {
+    mutationFn: (user: Omit<Profile, "id">) => {
       return signupUser(user);
     },
   });

@@ -1,7 +1,7 @@
 import { CommonQueryMethods, sql } from "slonik";
-import { UserSchema } from "../../../types/user";
-import { logger } from "../../../logger";
-import { InternalServerError } from "../../../errors/server";
+import { logger } from "../../../../logger";
+import { InternalServerError } from "../../../../errors/server";
+import { AccountSchema } from "../../../../types/account";
 
 interface DoesEmailExistOptions {
   email: string;
@@ -13,11 +13,11 @@ export const doesEmailExist = async (
 ): Promise<boolean> => {
   const user = await database
     .any(
-      sql.type(UserSchema)`
+      sql.type(AccountSchema)`
       SELECT
         *
       FROM
-        users
+        accounts
       WHERE
         email = ${email};
     `,

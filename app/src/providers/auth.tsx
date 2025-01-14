@@ -1,14 +1,14 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import cookies from "js-cookie";
-import { User } from "../types/user";
-import { useLoginUser } from "../api/auth/login/useLoginUser";
+import { Profile } from "../types/profile";
+import { useLoginUser } from "../api/actions/login/useLoginUser";
 import { decodeJwtToken } from "../helpers/decodeJwtToken";
 import { useNavigate } from "react-router-dom";
-import { useSignupUser } from "../api/auth/signup/useSignupUser";
+import { useSignupUser } from "../api/actions/signup/useSignupUser";
 import { useToast } from "@shadcn-ui/components/ui/use-toast";
 import { ToastAction } from "@shadcn-ui/components/ui/toast";
-import { useLogoutUser } from "../api/auth/logout/useLogoutUser";
-import { refreshToken } from "../api/auth/refreshToken";
+import { useLogoutUser } from "../api/actions/logout/useLogoutUser";
+import { refreshToken } from "../api/actions/refreshToken";
 
 type AuthProviderProps = {
   children: React.ReactNode;
@@ -18,8 +18,8 @@ type AuthProviderValue = {
   isAuthenticated: boolean;
   userId: string | undefined;
   // Methods
-  login: (data: Pick<User, "email" | "password">) => void;
-  signup: (data: Omit<User, "id">) => void;
+  login: (data: Pick<Profile, "email" | "password">) => void;
+  signup: (data: Omit<Profile, "id">) => void;
   logout: () => void;
 };
 
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [navigate, accessToken, refreshTokenCookie]);
 
-  const login = (data: Pick<User, "email" | "password">) => {
+  const login = (data: Pick<Profile, "email" | "password">) => {
     loginUser(data, {
       onError: (error) => {
         toast({
@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     });
   };
 
-  const signup = (data: Omit<User, "id">) => {
+  const signup = (data: Omit<Profile, "id">) => {
     signupUser(data, {
       onError: (error) => {
         toast({

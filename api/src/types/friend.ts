@@ -1,5 +1,5 @@
 import z from "zod";
-import { UserSchema } from "./user";
+import { ProfileSchema } from "./profiles";
 
 export const FriendSchema = z.object({
   id: z.string().uuid(),
@@ -14,9 +14,7 @@ export type Friend = z.infer<typeof FriendSchema>;
 export const FriendWithUserSchema = FriendSchema.omit({
   friendId: true,
 }).extend({
-  friend: UserSchema.omit({
-    password: true,
-    passwordSalt: true,
+  friend: ProfileSchema.omit({
     createdAt: true,
     updatedAt: true,
     deletedAt: true,
@@ -45,9 +43,7 @@ export type FriendRequest = z.infer<typeof FriendRequestSchema>;
 export const ReceivedFriendRequestWithUserSchema = FriendRequestSchema.omit({
   senderId: true,
 }).extend({
-  sender: UserSchema.omit({
-    password: true,
-    passwordSalt: true,
+  sender: ProfileSchema.omit({
     createdAt: true,
     updatedAt: true,
     deletedAt: true,
@@ -60,9 +56,7 @@ export type ReceivedFriendRequestWithUser = z.infer<
 export const SentFriendRequestWithUserSchema = FriendRequestSchema.omit({
   receiverId: true,
 }).extend({
-  receiver: UserSchema.omit({
-    password: true,
-    passwordSalt: true,
+  receiver: ProfileSchema.omit({
     createdAt: true,
     updatedAt: true,
     deletedAt: true,

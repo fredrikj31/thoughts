@@ -1,11 +1,11 @@
 import { apiClient } from "../../apiClient";
-import { User } from "../../../types/user";
+import { Account } from "../../../types/account";
 
 export const loginUser = async (
-  user: Pick<User, "email" | "password">,
+  user: Pick<Account, "email" | "password">,
 ): Promise<void> => {
   try {
-    await apiClient.post("/auth/login", user);
+    await apiClient.post("/login", user);
   } catch (error) {
     console.error("Failed to login user", error);
     throw error;

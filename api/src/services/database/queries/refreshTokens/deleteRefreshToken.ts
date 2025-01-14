@@ -3,10 +3,10 @@ import {
   sql,
   NotFoundError as SlonikNotFoundError,
 } from "slonik";
-import { NotFoundError } from "../../../errors/client";
-import { logger } from "../../../logger";
-import { InternalServerError } from "../../../errors/server";
-import { RefreshTokenSchema } from "../../../types/refreshToken";
+import { NotFoundError } from "../../../../errors/client";
+import { logger } from "../../../../logger";
+import { InternalServerError } from "../../../../errors/server";
+import { RefreshTokenSchema } from "../../../../types/refreshToken";
 
 interface DeleteRefreshTokenOptions {
   refreshTokenId: string;

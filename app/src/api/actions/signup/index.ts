@@ -1,12 +1,14 @@
 import { apiClient } from "../../apiClient";
 import { Profile, ProfileSchema } from "../../../types/profile";
 
-export const getLoggedInUser = async (): Promise<Profile> => {
+export const signupUser = async (
+  user: Omit<Profile, "id">,
+): Promise<Profile> => {
   try {
-    const { data } = await apiClient.get("/users/me");
+    const { data } = await apiClient.post("/signup", user);
     return ProfileSchema.parse(data);
   } catch (error) {
-    console.error("Failed to get logged in user", error);
+    console.error("Failed to sign up user", error);
     throw error;
   }
 };

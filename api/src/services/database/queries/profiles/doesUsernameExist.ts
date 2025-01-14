@@ -1,7 +1,7 @@
 import { CommonQueryMethods, sql } from "slonik";
-import { UserSchema } from "../../../types/user";
-import { logger } from "../../../logger";
-import { InternalServerError } from "../../../errors/server";
+import { ProfileSchema } from "../../../../types/profiles";
+import { logger } from "../../../../logger";
+import { InternalServerError } from "../../../../errors/server";
 
 interface DoesUsernameExistOptions {
   username: string;
@@ -13,11 +13,11 @@ export const doesUsernameExist = async (
 ): Promise<boolean> => {
   const user = await database
     .any(
-      sql.type(UserSchema)`
+      sql.type(ProfileSchema)`
       SELECT
         *
       FROM
-        users
+        profiles
       WHERE
         username = ${username};
     `,

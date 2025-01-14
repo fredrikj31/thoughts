@@ -1,10 +1,10 @@
 import { CommonQueryMethods } from "slonik";
 import { BadRequestError } from "../../../errors/client";
 import { validateJwtToken } from "../../../helpers/validateJwtToken";
-import { checkRefreshToken } from "../../../services/database/queries/checkRefreshToken";
+import { checkRefreshToken } from "../../../services/database/queries/refreshTokens/checkRefreshToken";
 import { signJwt } from "../../../helpers/signJwt";
-import { getUserById } from "../../../services/database/queries/getUserById";
 import { config } from "../../../config";
+import { getAccountById } from "../../../services/database/queries/accounts/getAccountById";
 
 interface TokenHandlerOptions {
   database: CommonQueryMethods;
@@ -44,7 +44,9 @@ export const tokenHandler = async ({
   }
 
   // Get user details
-  const user = await getUserById(database, { userId: refreshTokenItem.userId });
+  const user = await getAccountById(database, {
+    userId: refreshTokenItem.userId,
+  });
 
   const expiresAt = new Date(
     new Date().getTime() + config.jwt.accessTokenTTLSeconds * 1000,
@@ -53,8 +55,7 @@ export const tokenHandler = async ({
   // Sign new access token
   const accessToken = signJwt({
     payload: {
-      userId: user.id,
-      username: user.username,
+      userId: user.userId,
     },
     expiresInSeconds: config.jwt.accessTokenTTLSeconds, // 24 hours
   });

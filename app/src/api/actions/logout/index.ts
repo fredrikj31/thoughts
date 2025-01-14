@@ -4,7 +4,7 @@ import { apiClient } from "../../apiClient";
 export const logoutUser = async (): Promise<void> => {
   const refreshToken = cookies.get("refresh_token");
   try {
-    return await apiClient.post("/auth/logout", {
+    return await apiClient.post("/logout", {
       refreshToken,
     });
   } catch (error) {

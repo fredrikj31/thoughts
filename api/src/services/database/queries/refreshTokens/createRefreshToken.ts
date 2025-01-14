@@ -3,10 +3,13 @@ import {
   ForeignKeyIntegrityConstraintViolationError,
   sql,
 } from "slonik";
-import { RefreshToken, RefreshTokenSchema } from "../../../types/refreshToken";
-import { logger } from "../../../logger";
-import { InternalServerError } from "../../../errors/server";
-import { BadRequestError } from "../../../errors/client";
+import {
+  RefreshToken,
+  RefreshTokenSchema,
+} from "../../../../types/refreshToken";
+import { logger } from "../../../../logger";
+import { InternalServerError } from "../../../../errors/server";
+import { BadRequestError } from "../../../../errors/client";
 
 interface CreateRefreshTokenOptions {
   tokenId: string;

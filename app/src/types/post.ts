@@ -1,5 +1,5 @@
 import z from "zod";
-import { UserSchema } from "./user";
+import { ProfileSchema } from "./profile";
 
 export const PostSchema = z.object({
   id: z.string().uuid(),
@@ -14,7 +14,7 @@ export type Post = z.infer<typeof PostSchema>;
 export const PostWithUserSchema = PostSchema.omit({
   userId: true,
 }).extend({
-  user: UserSchema.omit({
+  user: ProfileSchema.omit({
     password: true,
   }),
 });

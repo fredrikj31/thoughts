@@ -1,6 +1,6 @@
 import { InternalAxiosRequestConfig } from "axios";
 import cookies from "js-cookie";
-import { refreshToken } from "./auth/refreshToken";
+import { refreshToken } from "./actions/refreshToken";
 
 const clearCookies = () => {
   cookies.remove("access_token");

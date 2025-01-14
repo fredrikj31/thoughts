@@ -5,7 +5,7 @@ import {
   ZodTypeProvider,
 } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { authRoutes } from "./auth";
+import { actionRoutes } from "./actions";
 import { usersRoutes } from "./users";
 import { friendsRoutes } from "./friends";
 import { postsRoutes } from "./posts";
@@ -14,7 +14,7 @@ export const routes: FastifyPluginAsync = async (instance) => {
   instance.setValidatorCompiler(validatorCompiler);
   instance.setSerializerCompiler(serializerCompiler);
 
-  instance.register(authRoutes, { prefix: "/auth" });
+  instance.register(actionRoutes, { prefix: "/" });
   instance.register(usersRoutes, { prefix: "/users" });
   instance.register(friendsRoutes, { prefix: "/friends" });
   instance.register(postsRoutes, { prefix: "/posts" });

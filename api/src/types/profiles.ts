@@ -1,12 +1,9 @@
 import z from "zod";
 import { DateSchema, GenderSchema } from ".";
 
-export const UserSchema = z.object({
-  id: z.string().uuid(),
+export const ProfileSchema = z.object({
+  userId: z.string().uuid(),
   username: z.string(),
-  email: z.string().email(),
-  password: z.string(),
-  passwordSalt: z.string(),
   firstName: z.string(),
   lastName: z.string(),
   birthDate: DateSchema,
@@ -15,4 +12,4 @@ export const UserSchema = z.object({
   updatedAt: z.string().datetime().nullable(),
   deletedAt: z.string().datetime().nullable(),
 });
-export type User = z.infer<typeof UserSchema>;
+export type Profile = z.infer<typeof ProfileSchema>;
