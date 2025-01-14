@@ -1,6 +1,6 @@
 import { CommonQueryMethods } from "slonik";
-import { getUserById } from "../../../services/database/queries/getUserById";
-import { User } from "../../../types/user";
+import { getProfileById } from "../../../services/database/queries/profiles/getProfileById";
+import { Profile } from "../../../types/profiles";
 
 interface GetUserHandlerOptions {
   database: CommonQueryMethods;
@@ -10,7 +10,7 @@ interface GetUserHandlerOptions {
 export const getUserHandler = async ({
   database,
   userId,
-}: GetUserHandlerOptions): Promise<User> => {
-  const user = await getUserById(database, { userId });
+}: GetUserHandlerOptions): Promise<Profile> => {
+  const user = await getProfileById(database, { userId });
   return user;
 };

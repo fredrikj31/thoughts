@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
-import { UserSchema } from "../../types/user";
+import { ProfileSchema } from "../../types/profiles";
 import { validateJwt } from "../../hooks/validateJwt";
 import { UnauthorizedError } from "../../errors/client";
 import { getUserHandler } from "./handlers/getUser";
@@ -16,15 +16,14 @@ export const usersRoutes: FastifyPluginAsync = async (instance) => {
       schema: {
         summary: "Get user information",
         description: "Gets logged in users information",
-        tags: ["users"],
+        tags: ["profiles"],
         security: [
           {
             jwt: [""],
           },
         ],
         response: {
-          "200": UserSchema.omit({
-            passwordSalt: true,
+          "200": ProfileSchema.omit({
             createdAt: true,
             updatedAt: true,
             deletedAt: true,
