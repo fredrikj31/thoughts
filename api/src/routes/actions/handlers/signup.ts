@@ -1,12 +1,14 @@
 import { CommonQueryMethods } from "slonik";
-import { createUser } from "../../../services/database/queries/createUser";
-import { doesEmailExist } from "../../../services/database/queries/doesEmailExist";
-import { User } from "../../../types/user";
+import { createProfile } from "../../../services/database/queries/profiles/createProfile";
+import { doesEmailExist } from "../../../services/database/queries/accounts/doesEmailExist";
+import { Profile } from "../../../types/profiles";
 import { ConflictError } from "../../../errors/client";
 import { randomBytes, randomUUID } from "crypto";
 import { generateHash } from "../../../helpers/generateHash";
 import { config } from "../../../config";
-import { doesUsernameExist } from "../../../services/database/queries/doesUsernameExist";
+import { doesUsernameExist } from "../../../services/database/queries/profiles/doesUsernameExist";
+import { Account } from "../../../types/account";
+import { createAccount } from "../../../services/database/queries/accounts/createAccount";
 
 interface SignupHandlerOptions {
   database: CommonQueryMethods;
@@ -24,7 +26,10 @@ interface SignupHandlerOptions {
 export const signupHandler = async ({
   database,
   user,
-}: SignupHandlerOptions): Promise<User> => {
+}: SignupHandlerOptions): Promise<
+  Pick<Account, "userId" | "email"> &
+    Omit<Profile, "userId" | "createdAt" | "updatedAt" | "deletedAt">
+> => {
   const isEmailTaken = await doesEmailExist(database, { email: user.email });
   if (isEmailTaken) {
     throw new ConflictError({
@@ -51,16 +56,30 @@ export const signupHandler = async ({
     salt: config.tokens.passwordSalt,
   });
 
-  const createdUser = await createUser(database, {
+  const { email } = await createAccount(database, {
     userId,
-    username: user.username,
     email: user.email,
     hashedPassword,
     passwordSalt: userSalt,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    birthDate: user.birthDate,
-    gender: user.gender,
   });
-  return createdUser;
+
+  const { username, firstName, lastName, birthDate, gender } =
+    await createProfile(database, {
+      userId,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      birthDate: user.birthDate,
+      gender: user.gender,
+    });
+
+  return {
+    userId,
+    email,
+    username,
+    firstName,
+    lastName,
+    birthDate,
+    gender,
+  };
 };

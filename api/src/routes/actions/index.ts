@@ -1,14 +1,15 @@
 import { FastifyPluginAsync } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
-import { UserSchema } from "../../types/user";
+import { ProfileSchema } from "../../types/profiles";
 import { signupHandler } from "./handlers/signup";
 import z from "zod";
 import { loginHandler } from "./handlers/login";
 import { tokenHandler } from "./handlers/token";
 import { BadRequestError, NotFoundError } from "../../errors/client";
 import { logoutHandler } from "./handlers/logout";
+import { AccountSchema } from "../../types/account";
 
-export const authRoutes: FastifyPluginAsync = async (instance) => {
+export const actionRoutes: FastifyPluginAsync = async (instance) => {
   const app = instance.withTypeProvider<ZodTypeProvider>();
   const database = instance.database;
 
@@ -18,20 +19,25 @@ export const authRoutes: FastifyPluginAsync = async (instance) => {
       schema: {
         summary: "Signs up a user",
         description: "Signs up the user and creates them in the database",
-        tags: ["auth"],
-        body: UserSchema.omit({
-          id: true,
-          passwordSalt: true,
-          createdAt: true,
-          updatedAt: true,
-          deletedAt: true,
-        }),
-        response: {
-          "200": UserSchema.omit({
-            passwordSalt: true,
+        tags: ["actions"],
+        body: z.object({
+          ...AccountSchema.pick({ email: true, password: true }).shape,
+          ...ProfileSchema.omit({
+            userId: true,
             createdAt: true,
             updatedAt: true,
             deletedAt: true,
+          }).shape,
+        }),
+        response: {
+          "200": z.object({
+            ...AccountSchema.pick({ userId: true, email: true }).shape,
+            ...ProfileSchema.omit({
+              userId: true,
+              createdAt: true,
+              updatedAt: true,
+              deletedAt: true,
+            }).shape,
           }),
         },
       },
@@ -48,7 +54,7 @@ export const authRoutes: FastifyPluginAsync = async (instance) => {
       schema: {
         summary: "Login a user",
         description: "Logs in the user and returns access & refresh tokens",
-        tags: ["auth"],
+        tags: ["actions"],
         body: z.object({
           email: z.string(),
           password: z.string(),
@@ -81,7 +87,7 @@ export const authRoutes: FastifyPluginAsync = async (instance) => {
       schema: {
         summary: "Logouts a user",
         descriptions: "Logouts a user. Deletes refresh token from database",
-        tags: ["auth"],
+        tags: ["actions"],
         body: z.object({
           refreshToken: z.string(),
         }),
@@ -119,7 +125,7 @@ export const authRoutes: FastifyPluginAsync = async (instance) => {
         summary: "Refreshes user access token",
         description:
           "Refreshes a user's access token with use of their refresh token",
-        tags: ["auth"],
+        tags: ["actions"],
         body: z.object({
           refreshToken: z.string(),
         }),

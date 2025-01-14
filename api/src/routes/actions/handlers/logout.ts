@@ -1,7 +1,7 @@
 import { CommonQueryMethods } from "slonik";
 import { validateJwtToken } from "../../../helpers/validateJwtToken";
 import { BadRequestError } from "../../../errors/client";
-import { deleteRefreshToken } from "../../../services/database/queries/deleteRefreshToken";
+import { deleteRefreshToken } from "../../../services/database/queries/refreshTokens/deleteRefreshToken";
 
 interface LogoutHandlerOptions {
   database: CommonQueryMethods;
