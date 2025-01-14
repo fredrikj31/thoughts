@@ -7,7 +7,7 @@ export const refreshToken = async (): Promise<void> => {
   const refreshToken = cookies.get("refresh_token");
   try {
     await axios.post(
-      "/auth/token",
+      "/token",
       {
         // Should not use the apiClient, because it has the auth interceptor on it, and will cause infinite loop
         refreshToken,
