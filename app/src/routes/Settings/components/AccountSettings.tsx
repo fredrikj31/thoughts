@@ -22,6 +22,7 @@ export const AccountSettings = () => {
   const { data: account, isLoading: isAccountLoading } = useGetUserAccount();
 
   const formSchema = z.object({
+    userId: z.string().uuid(),
     email: z.string().email({
       message: "Email must be valid.",
     }),
@@ -29,13 +30,16 @@ export const AccountSettings = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      userId: useMemo(() => {
+        return account?.userId ?? "";
+      }, [account]),
       email: useMemo(() => {
         return account?.email ?? "";
       }, [account]),
     },
   });
   useEffect(() => {
-    form.reset({ email: account?.email ?? "" });
+    form.reset({ email: account?.email ?? "", userId: account?.userId ?? "" });
   }, [form, account]);
 
   const passwordFormSchema = z.object({
@@ -70,6 +74,23 @@ export const AccountSettings = () => {
             onSubmit={form.handleSubmit((hej) => console.log(hej))}
             className="flex flex-col gap-4"
           >
+            <FormField
+              control={form.control}
+              name="userId"
+              disabled
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>User Id</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Your personal user id. Useful if support needs to help you.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"
