@@ -6,7 +6,7 @@ import {
 } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { actionRoutes } from "./actions";
-import { usersRoutes } from "./users";
+import { profilesRoutes } from "./profiles";
 import { friendsRoutes } from "./friends";
 import { postsRoutes } from "./posts";
 import { accountsRoutes } from "./accounts";
@@ -17,7 +17,7 @@ export const routes: FastifyPluginAsync = async (instance) => {
 
   instance.register(actionRoutes, { prefix: "/" });
   instance.register(accountsRoutes, { prefix: "/accounts" });
-  instance.register(usersRoutes, { prefix: "/users" });
+  instance.register(profilesRoutes, { prefix: "/profiles" });
   instance.register(friendsRoutes, { prefix: "/friends" });
   instance.register(postsRoutes, { prefix: "/posts" });
 
