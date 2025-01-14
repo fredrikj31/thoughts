@@ -14,7 +14,7 @@ import {
 } from "@shadcn-ui/components/ui/form";
 import { Input } from "@shadcn-ui/components/ui/input";
 import { Textarea } from "@shadcn-ui/components/ui/textarea";
-import { useGetLoggedInUser } from "../../../api/users/getLoggedInUser/useGetLoggedInUser";
+import { useGetUserProfile } from "../../../api/profiles/getUserProfile/useGetUserProfile";
 import { Skeleton } from "@shadcn-ui/components/ui/skeleton";
 import { useEffect, useMemo } from "react";
 import {
@@ -26,7 +26,7 @@ import {
 } from "@shadcn-ui/components/ui/select";
 
 export const ProfileSettings = () => {
-  const { data: profile, isLoading: isProfileLoading } = useGetLoggedInUser();
+  const { data: profile, isLoading: isProfileLoading } = useGetUserProfile();
 
   const formSchema = z.object({
     username: z.string().min(2, {

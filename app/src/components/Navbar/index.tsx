@@ -23,14 +23,14 @@ import { NavbarLink } from "./components/NavbarLink";
 import { useTheme } from "../../providers/theme";
 import { ThemeToggler } from "./components/ThemeToggler";
 import { useAuth } from "../../providers/auth";
-import { useGetLoggedInUser } from "../../api/users/getLoggedInUser/useGetLoggedInUser";
+import { useGetUserProfile } from "../../api/profiles/getUserProfile/useGetUserProfile";
 import { Bell, House, Mail, Menu, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const { logout } = useAuth();
   const { theme, setTheme } = useTheme();
-  const { data: user } = useGetLoggedInUser();
+  const { data: user } = useGetUserProfile();
 
   const toggleTheme = () => {
     switch (theme) {
