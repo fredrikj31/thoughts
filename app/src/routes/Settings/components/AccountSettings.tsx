@@ -13,13 +13,13 @@ import {
   FormMessage,
 } from "@shadcn-ui/components/ui/form";
 import { Input } from "@shadcn-ui/components/ui/input";
-import { useGetLoggedInUser } from "../../../api/users/getLoggedInUser/useGetLoggedInUser";
 import { Skeleton } from "@shadcn-ui/components/ui/skeleton";
 import { useEffect, useMemo } from "react";
 import { TriangleAlert } from "lucide-react";
+import { useGetUserAccount } from "../../../api/accounts/getUserAccount/useGetUserAccount";
 
 export const AccountSettings = () => {
-  const { data: profile, isLoading: isProfileLoading } = useGetLoggedInUser();
+  const { data: account, isLoading: isAccountLoading } = useGetUserAccount();
 
   const formSchema = z.object({
     email: z.string().email({
@@ -30,13 +30,13 @@ export const AccountSettings = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: useMemo(() => {
-        return profile?.email ?? "";
-      }, [profile]),
+        return account?.email ?? "";
+      }, [account]),
     },
   });
   useEffect(() => {
-    form.reset({ email: profile?.email ?? "" });
-  }, [form, profile]);
+    form.reset({ email: account?.email ?? "" });
+  }, [form, account]);
 
   const passwordFormSchema = z.object({
     password: z.string().min(8, {
@@ -50,7 +50,7 @@ export const AccountSettings = () => {
     resolver: zodResolver(passwordFormSchema),
   });
 
-  if (isProfileLoading || !profile) {
+  if (isAccountLoading || !account) {
     return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
   }
 
