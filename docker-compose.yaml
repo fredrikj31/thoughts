@@ -33,6 +33,33 @@ services:
       - database-data:/var/lib/postgresql/data # store data from postgresql in the volume
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql # init database with SQL files from local "database" folder
 
+  asset-local:
+    container_name: thoughts-asset
+    image: "nginx:1.27.3-alpine"
+    restart: always
+    profiles:
+      - dev
+    ports:
+      - 8000:80
+    volumes:
+      - asset-data:/usr/share/nginx/data
+      - ./nginx/asset.conf:/etc/nginx/conf.d/default.conf
+
+  asset:
+    container_name: thoughts-asset
+    image: "nginx:1.27.3-alpine"
+    restart: always
+    profiles:
+      - prod
+    ports:
+      - 3001:80
+    networks:
+      - thoughts-network
+      - cloudflared_tunnel
+    volumes:
+      - asset-data:/usr/share/nginx/data
+      - ./nginx/asset.conf:/etc/nginx/conf.d/default.conf
+
   backend:
     container_name: thoughts-backend
     image: fredrikj31/thoughts-backend:latest
@@ -76,4 +103,7 @@ networks:
 volumes:
   database-data:
     name: thoughts-database-data
+    driver: local
+  asset-data:
+    name: thoughts-asset-data
     driver: local
