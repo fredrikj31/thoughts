@@ -52,7 +52,7 @@ services:
       - thoughts-network
       - cloudflared_tunnel
     ports:
-      - 3001:3000
+      - 3002:3000
 
   frontend:
     container_name: thoughts-frontend
@@ -65,7 +65,7 @@ services:
     networks:
       - cloudflared_tunnel
     ports:
-      - 3002:80
+      - 3003:80
 
 networks:
   thoughts-network:
