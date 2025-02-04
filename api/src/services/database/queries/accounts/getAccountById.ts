@@ -16,7 +16,6 @@ export const getAccountById = async (
   database: CommonQueryMethods,
   { userId }: GetAccountByIdOptions,
 ): Promise<Account> => {
-  logger.fatal({ userId }, "userid");
   try {
     return await database.one(sql.type(AccountSchema)`
       SELECT
