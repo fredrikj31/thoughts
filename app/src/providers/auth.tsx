@@ -9,6 +9,7 @@ import { useToast } from "@shadcn-ui/components/ui/use-toast";
 import { ToastAction } from "@shadcn-ui/components/ui/toast";
 import { useLogoutUser } from "../api/actions/logout/useLogoutUser";
 import { refreshToken } from "../api/actions/refreshToken";
+import { Account } from "../types/account";
 
 type AuthProviderProps = {
   children: React.ReactNode;
@@ -18,8 +19,11 @@ type AuthProviderValue = {
   isAuthenticated: boolean;
   userId: string | undefined;
   // Methods
-  login: (data: Pick<Profile, "email" | "password">) => void;
-  signup: (data: Omit<Profile, "id">) => void;
+  login: (data: Pick<Account, "email" | "password">) => void;
+  signup: (
+    data: Pick<Account, "email" | "password"> &
+      Omit<Profile, "userId" | "createdAt" | "updatedAt" | "deletedAt">,
+  ) => void;
   logout: () => void;
 };
 
@@ -60,7 +64,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [navigate, accessToken, refreshTokenCookie]);
 
-  const login = (data: Pick<Profile, "email" | "password">) => {
+  const login = (data: Pick<Account, "email" | "password">) => {
     loginUser(data, {
       onError: (error) => {
         toast({
@@ -93,7 +97,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     });
   };
 
-  const signup = (data: Omit<Profile, "id">) => {
+  const signup = (
+    data: Pick<Account, "email" | "password"> &
+      Omit<Profile, "userId" | "createdAt" | "updatedAt" | "deletedAt">,
+  ) => {
     signupUser(data, {
       onError: (error) => {
         toast({
