@@ -85,7 +85,7 @@ export const Post = ({ post }: PostProps) => {
             </span>
           </div>
         </div>
-        {userId === post.user.id && (
+        {userId === post.user.userId && (
           <Popover>
             <PopoverTrigger>
               <EllipsisVertical />

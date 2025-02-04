@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { loginUser } from ".";
-import { Profile } from "../../../types/profile";
+import { Account } from "../../../types/account";
 
 export const useLoginUser = () => {
   return useMutation({
-    mutationFn: (user: Pick<Profile, "email" | "password">) => {
+    mutationFn: (user: Pick<Account, "email" | "password">) => {
       return loginUser(user);
     },
   });

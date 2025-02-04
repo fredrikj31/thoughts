@@ -15,7 +15,9 @@ export const PostWithUserSchema = PostSchema.omit({
   userId: true,
 }).extend({
   user: ProfileSchema.omit({
-    password: true,
+    createdAt: true,
+    updatedAt: true,
+    deletedAt: true,
   }),
 });
 export type PostWithUser = z.infer<typeof PostWithUserSchema>;
