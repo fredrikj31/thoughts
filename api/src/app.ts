@@ -3,6 +3,7 @@ import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
+import fastifyMultipart from "@fastify/multipart";
 import { swaggerConfig, swaggerUiConfig } from "./plugins/swagger";
 import { config } from "./config";
 import { logger } from "./logger";
@@ -30,6 +31,7 @@ app
       sameSite: true,
     },
   })
+  .register(fastifyMultipart)
   .register(databasePlugin, {
     dbHost: config.database.host,
     dbPort: config.database.port,
