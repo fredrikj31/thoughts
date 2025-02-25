@@ -15,6 +15,7 @@ const envVarsSchema = z.object({
   DB_PASSWORD: z.string(),
   JWT_PRIVATE_KEY: z.string(),
   PASSWORD_SALT: z.string(),
+  UPLOADS_FILE_PATH: z.string(),
 });
 
 const envVars = envVarsSchema.safeParse(process.env);
@@ -45,5 +46,8 @@ export const config = {
     name: envVars.data.DB_NAME,
     user: envVars.data.DB_USER,
     password: envVars.data.DB_PASSWORD,
+  },
+  uploads: {
+    filePath: envVars.data.UPLOADS_FILE_PATH,
   },
 };

@@ -1,0 +1,15 @@
+meta {
+  name: Profile Picture
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_host}}/uploads/profile-picture
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  : @file() @contentType(multipart-form-data)
+}
