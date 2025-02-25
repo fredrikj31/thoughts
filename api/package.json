@@ -9,9 +9,9 @@
     "format": "prettier . --check"
   },
   "devDependencies": {
-    "@thoughts/eslint-config": "workspace:*",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.16.0",
+    "@thoughts/eslint-config": "workspace:*",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^22.10.2",
@@ -24,6 +24,7 @@
   "dependencies": {
     "@fastify/cookie": "^11.0.1",
     "@fastify/cors": "^10.0.1",
+    "@fastify/multipart": "^9.0.3",
     "@fastify/swagger": "^9.4.0",
     "@fastify/swagger-ui": "^5.2.0",
     "dotenv": "^16.4.7",
