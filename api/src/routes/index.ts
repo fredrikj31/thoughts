@@ -10,6 +10,7 @@ import { profilesRoutes } from "./profiles";
 import { friendsRoutes } from "./friends";
 import { postsRoutes } from "./posts";
 import { accountsRoutes } from "./accounts";
+import { uploadsRoutes } from "./uploads";
 
 export const routes: FastifyPluginAsync = async (instance) => {
   instance.setValidatorCompiler(validatorCompiler);
@@ -20,6 +21,7 @@ export const routes: FastifyPluginAsync = async (instance) => {
   instance.register(profilesRoutes, { prefix: "/profiles" });
   instance.register(friendsRoutes, { prefix: "/friends" });
   instance.register(postsRoutes, { prefix: "/posts" });
+  instance.register(uploadsRoutes, { prefix: "/uploads" });
 
   const app = instance.withTypeProvider<ZodTypeProvider>();
 
