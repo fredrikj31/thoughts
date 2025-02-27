@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const envVarsSchema = z.object({
   VITE_API_BASE_URL: z.string(),
+  VITE_ASSETS_BASE_URL: z.string(),
 });
 
 const envVars = envVarsSchema.safeParse(import.meta.env);
@@ -13,5 +14,8 @@ if (!envVars.success) {
 export const config = {
   api: {
     baseUrl: envVars.data.VITE_API_BASE_URL,
+  },
+  assets: {
+    baseUrl: envVars.data.VITE_ASSETS_BASE_URL,
   },
 };
