@@ -26,6 +26,7 @@ import { useAuth } from "../../providers/auth";
 import { useGetUserProfile } from "../../api/profiles/getUserProfile/useGetUserProfile";
 import { Bell, House, Mail, Menu, Users } from "lucide-react";
 import { Link } from "react-router-dom";
+import { config } from "../../config";
 
 export const Navbar = () => {
   const { logout } = useAuth();
@@ -119,8 +120,13 @@ export const Navbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar className="size-12">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage
+                className="object-cover"
+                src={`${config.assets.baseUrl}/profiles/${user?.userId}`}
+              />
+              <AvatarFallback>
+                {`${user?.firstName[0]}${user?.lastName[0]}`.toUpperCase()}
+              </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
