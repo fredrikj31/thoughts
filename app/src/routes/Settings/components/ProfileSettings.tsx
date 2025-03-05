@@ -290,7 +290,7 @@ export const ProfileSettings = () => {
         </div>
         <div className="flex flex-col gap-4">
           <Input
-            className="w-fit"
+            className="w-fit file:text-black dark:file:text-white text-black dark:text-white"
             type="file"
             onChange={(e) => {
               if (!e.target.files || e.target.files.length === 0) {
