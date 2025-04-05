@@ -75,6 +75,7 @@ services:
       DB_NAME: thoughts
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      UPLOADS_FILE_PATH: ${UPLOADS_FILE_PATH}
     networks:
       - thoughts-network
       - cloudflared
