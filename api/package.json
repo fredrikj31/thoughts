@@ -12,7 +12,6 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.16.0",
     "@thoughts/eslint-config": "workspace:*",
-    "@tsconfig/node20": "^20.1.4",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^22.10.2",
     "eslint": "^9.16.0",

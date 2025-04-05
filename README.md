@@ -9,8 +9,8 @@ This is a simple guide on how to get setup up and start the development.
 ### Prerequisites
 
 - Docker (Docker Desktop)
-- Node v20
-  - PNPM
+- Node v22
+  - PNPM 9.x.x
 
 ### Environment Variables:
 

@@ -75,9 +75,6 @@ importers:
       '@thoughts/eslint-config':
         specifier: workspace:*
         version: link:../packages/eslint-config
-      '@tsconfig/node20':
-        specifier: ^20.1.4
-        version: 20.1.4
       '@types/jsonwebtoken':
         specifier: ^9.0.6
         version: 9.0.7
@@ -284,7 +281,11 @@ importers:
         specifier: ^5.7.2
         version: 5.7.2
 
-  packages/typescript-config: {}
+  packages/typescript-config:
+    devDependencies:
+      '@tsconfig/node22':
+        specifier: ^22.0.1
+        version: 22.0.1
 
 packages:
 
@@ -1406,8 +1407,8 @@ packages:
     peerDependencies:
       react: ^18 || ^19
 
-  '@tsconfig/node20@20.1.4':
-    resolution: {integrity: sha512-sqgsT69YFeLWf5NtJ4Xq/xAF8p4ZQHlmGW74Nu2tD4+g5fAsposc4ZfaaPixVu4y01BEiDCWLRDCvDM5JOsRxg==}
+  '@tsconfig/node22@22.0.1':
+    resolution: {integrity: sha512-VkgOa3n6jvs1p+r3DiwBqeEwGAwEvnVCg/hIjiANl5IEcqP3G0u5m8cBJspe1t9qjZRlZ7WFgqq5bJrGdgAKMg==}
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -4006,7 +4007,7 @@ snapshots:
       '@tanstack/query-core': 5.62.7
       react: 18.3.1
 
-  '@tsconfig/node20@20.1.4': {}
+  '@tsconfig/node22@22.0.1': {}
 
   '@types/babel__core@7.20.5':
     dependencies:
