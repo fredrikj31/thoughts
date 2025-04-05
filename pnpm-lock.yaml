@@ -75,6 +75,12 @@ importers:
       '@thoughts/eslint-config':
         specifier: workspace:*
         version: link:../packages/eslint-config
+      '@thoughts/typescript-config':
+        specifier: workspace:*
+        version: link:../packages/typescript-config
+      '@tsconfig/node22':
+        specifier: ^22.0.1
+        version: 22.0.1
       '@types/jsonwebtoken':
         specifier: ^9.0.6
         version: 9.0.7
@@ -196,6 +202,12 @@ importers:
       '@thoughts/eslint-config':
         specifier: workspace:*
         version: link:../packages/eslint-config
+      '@thoughts/typescript-config':
+        specifier: workspace:*
+        version: link:../packages/typescript-config
+      '@tsconfig/node22':
+        specifier: ^22.0.1
+        version: 22.0.1
       '@types/js-cookie':
         specifier: ^3.0.6
         version: 3.0.6
