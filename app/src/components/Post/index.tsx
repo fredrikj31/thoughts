@@ -29,6 +29,7 @@ import { useDeletePost } from "../../api/posts/deletePost/useDeletePost";
 import { useToast } from "@shadcn-ui/components/ui/use-toast";
 import { useAuth } from "../../providers/auth";
 import { useQueryClient } from "@tanstack/react-query";
+import { config } from "../../config";
 
 interface PostProps {
   post: PostWithUser;
@@ -68,7 +69,10 @@ export const Post = ({ post }: PostProps) => {
       <CardHeader className="flex flex-row justify-between">
         <div className="flex flex-row items-center gap-2">
           <Avatar className="size-10">
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage
+              className="object-cover"
+              src={`${config.assets.baseUrl}/profiles/${post.user.userId}`}
+            />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
