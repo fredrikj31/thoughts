@@ -30,7 +30,7 @@ export const listPosts = async (
           ) as user
         FROM
           posts
-          JOIN friends ON friends.friend_id = posts.user_id
+          LEFT JOIN friends ON friends.friend_id = posts.user_id
           JOIN profiles ON profiles.user_id = posts.user_id
         WHERE
           (
