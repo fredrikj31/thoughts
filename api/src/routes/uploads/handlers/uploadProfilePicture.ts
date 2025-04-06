@@ -28,7 +28,7 @@ export const uploadProfilePictureHandler = async ({
   try {
     await access(folderPath);
   } catch {
-    await mkdir(folderPath);
+    await mkdir(folderPath, { recursive: true });
   }
 
   // Stream file uploading to folder

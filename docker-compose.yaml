@@ -75,10 +75,12 @@ services:
       DB_NAME: thoughts
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      UPLOADS_FILE_PATH: ${UPLOADS_FILE_PATH}
+      UPLOADS_FILE_PATH: /files${UPLOADS_FILE_PATH} # /files is the root folder, which is the container's mount point
     networks:
       - thoughts-network
       - cloudflared
+    volumes:
+      - assets-data:/files # /files is the root folder, which is the container's mount point
     ports:
       - 3002:3000
 
