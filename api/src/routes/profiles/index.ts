@@ -1,9 +1,11 @@
 import { FastifyPluginAsync } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
+import z from "zod";
 import { ProfileSchema } from "../../types/profiles";
 import { validateJwt } from "../../hooks/validateJwt";
 import { UnauthorizedError } from "../../errors/client";
 import { getUserProfileByIdHandler } from "./handlers/getUserProfileById";
+import { getUserProfileByUsernameHandler } from "./handlers/getUserProfileByUsername";
 
 export const profilesRoutes: FastifyPluginAsync = async (instance) => {
   const app = instance.withTypeProvider<ZodTypeProvider>();
@@ -41,6 +43,41 @@ export const profilesRoutes: FastifyPluginAsync = async (instance) => {
       }
 
       const user = await getUserProfileByIdHandler({ database, userId });
+      return res.send(user);
+    },
+  );
+
+  app.get(
+    "/:username",
+    {
+      onRequest: validateJwt(),
+      schema: {
+        summary: "Get user profile information",
+        description: "Gets specific user profile information",
+        tags: ["profiles"],
+        security: [
+          {
+            jwt: [""],
+          },
+        ],
+        params: z.object({
+          username: z.string(),
+        }),
+        response: {
+          "200": ProfileSchema.omit({
+            createdAt: true,
+            updatedAt: true,
+            deletedAt: true,
+          }),
+        },
+      },
+    },
+    async (req, res) => {
+      const { username } = req.params;
+      const user = await getUserProfileByUsernameHandler({
+        database,
+        username,
+      });
       return res.send(user);
     },
   );
