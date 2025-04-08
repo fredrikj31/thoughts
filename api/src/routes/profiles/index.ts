@@ -3,7 +3,7 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { ProfileSchema } from "../../types/profiles";
 import { validateJwt } from "../../hooks/validateJwt";
 import { UnauthorizedError } from "../../errors/client";
-import { getUserProfileHandler } from "./handlers/getUserProfile";
+import { getUserProfileByIdHandler } from "./handlers/getUserProfileById";
 
 export const profilesRoutes: FastifyPluginAsync = async (instance) => {
   const app = instance.withTypeProvider<ZodTypeProvider>();
@@ -40,7 +40,7 @@ export const profilesRoutes: FastifyPluginAsync = async (instance) => {
         });
       }
 
-      const user = await getUserProfileHandler({ database, userId });
+      const user = await getUserProfileByIdHandler({ database, userId });
       return res.send(user);
     },
   );
