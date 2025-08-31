@@ -8,18 +8,9 @@ importers:
 
   .:
     devDependencies:
-      '@thoughts/eslint-config':
-        specifier: workspace:*
-        version: link:packages/eslint-config
-      '@thoughts/typescript-config':
-        specifier: workspace:*
-        version: link:packages/typescript-config
       husky:
         specifier: ^9.1.7
         version: 9.1.7
-      turbo:
-        specifier: ^2.3.3
-        version: 2.3.3
 
   api:
     dependencies:
@@ -72,12 +63,6 @@ importers:
       '@eslint/js':
         specifier: ^9.16.0
         version: 9.16.0
-      '@thoughts/eslint-config':
-        specifier: workspace:*
-        version: link:../packages/eslint-config
-      '@thoughts/typescript-config':
-        specifier: workspace:*
-        version: link:../packages/typescript-config
       '@tsconfig/node22':
         specifier: ^22.0.1
         version: 22.0.1
@@ -87,9 +72,24 @@ importers:
       '@types/node':
         specifier: ^22.10.2
         version: 22.10.2
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^8.18.0
+        version: 8.18.0(@typescript-eslint/parser@8.18.0(eslint@9.16.0(jiti@1.21.6))(typescript@5.7.2))(eslint@9.16.0(jiti@1.21.6))(typescript@5.7.2)
+      '@typescript-eslint/parser':
+        specifier: ^8.18.0
+        version: 8.18.0(eslint@9.16.0(jiti@1.21.6))(typescript@5.7.2)
       eslint:
         specifier: ^9.16.0
         version: 9.16.0(jiti@1.21.6)
+      eslint-config-prettier:
+        specifier: ^10.1.8
+        version: 10.1.8(eslint@9.16.0(jiti@1.21.6))
+      eslint-plugin-only-warn:
+        specifier: ^1.1.0
+        version: 1.1.0
+      globals:
+        specifier: ^15.13.0
+        version: 15.13.0
       pino-pretty:
         specifier: ^11.2.2
         version: 11.3.0
@@ -199,12 +199,6 @@ importers:
       '@eslint/js':
         specifier: ^9.16.0
         version: 9.16.0
-      '@thoughts/eslint-config':
-        specifier: workspace:*
-        version: link:../packages/eslint-config
-      '@thoughts/typescript-config':
-        specifier: workspace:*
-        version: link:../packages/typescript-config
       '@tsconfig/node22':
         specifier: ^22.0.1
         version: 22.0.1
@@ -238,6 +232,12 @@ importers:
       eslint:
         specifier: ^9.16.0
         version: 9.16.0(jiti@1.21.6)
+      eslint-config-prettier:
+        specifier: ^10.1.8
+        version: 10.1.8(eslint@9.16.0(jiti@1.21.6))
+      eslint-plugin-only-warn:
+        specifier: ^1.1.0
+        version: 1.1.0
       eslint-plugin-react-hooks:
         specifier: ^5.1.0
         version: 5.1.0(eslint@9.16.0(jiti@1.21.6))
@@ -259,45 +259,6 @@ importers:
       vite:
         specifier: ^5.4.17
         version: 5.4.17(@types/node@22.10.2)
-
-  packages/eslint-config:
-    devDependencies:
-      '@eslint/eslintrc':
-        specifier: ^3.2.0
-        version: 3.2.0
-      '@eslint/js':
-        specifier: ^9.16.0
-        version: 9.16.0
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^8.18.0
-        version: 8.18.0(@typescript-eslint/parser@8.18.0(eslint@9.16.0(jiti@1.21.6))(typescript@5.7.2))(eslint@9.16.0(jiti@1.21.6))(typescript@5.7.2)
-      '@typescript-eslint/parser':
-        specifier: ^8.18.0
-        version: 8.18.0(eslint@9.16.0(jiti@1.21.6))(typescript@5.7.2)
-      eslint:
-        specifier: ^9.16.0
-        version: 9.16.0(jiti@1.21.6)
-      eslint-config-prettier:
-        specifier: ^9.1.0
-        version: 9.1.0(eslint@9.16.0(jiti@1.21.6))
-      eslint-config-turbo:
-        specifier: ^2.3.3
-        version: 2.3.3(eslint@9.16.0(jiti@1.21.6))
-      eslint-plugin-only-warn:
-        specifier: ^1.1.0
-        version: 1.1.0
-      globals:
-        specifier: ^15.13.0
-        version: 15.13.0
-      typescript:
-        specifier: ^5.7.2
-        version: 5.7.2
-
-  packages/typescript-config:
-    devDependencies:
-      '@tsconfig/node22':
-        specifier: ^22.0.1
-        version: 22.0.1
 
 packages:
 
@@ -1754,10 +1715,6 @@ packages:
   dlv@1.1.3:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
 
-  dotenv@16.0.3:
-    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
-    engines: {node: '>=12'}
-
   dotenv@16.4.7:
     resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
     engines: {node: '>=12'}
@@ -1821,16 +1778,11 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-prettier@9.1.0:
-    resolution: {integrity: sha512-NSWl5BFQWEPi1j4TjVNItzYV7dZXZ+wP6I6ZhrBGpChQhZRUaElihE9uRRkcbRnNb76UMKDF3r+WTmNcGPKsqw==}
+  eslint-config-prettier@10.1.8:
+    resolution: {integrity: sha512-82GZUjRS0p/jganf6q1rEO25VSoHH0hKPCTrgillPjdI/3bgBhAE1QzHrHTizjpRvy6pGAvKjDJtk2pF9NDq8w==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
-
-  eslint-config-turbo@2.3.3:
-    resolution: {integrity: sha512-cM9wSBYowQIrjx2MPCzFE6jTnG4vpTPJKZ/O+Ps3CqrmGK/wtNOsY6WHGMwLtKY/nNbgRahAJH6jGVF6k2coOg==}
-    peerDependencies:
-      eslint: '>6.6.0'
 
   eslint-plugin-only-warn@1.1.0:
     resolution: {integrity: sha512-2tktqUAT+Q3hCAU0iSf4xAN1k9zOpjK5WO8104mB0rT/dGhOa09582HN5HlbxNbPRZ0THV7nLGvzugcNOSjzfA==}
@@ -1841,11 +1793,6 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
-
-  eslint-plugin-turbo@2.3.3:
-    resolution: {integrity: sha512-j8UEA0Z+NNCsjZep9G5u5soDQHcXq/x4amrwulk6eHF1U91H2qAjp5I4jQcvJewmccCJbVp734PkHHTRnosjpg==}
-    peerDependencies:
-      eslint: '>6.6.0'
 
   eslint-scope@8.2.0:
     resolution: {integrity: sha512-PHlWUfG6lvPc3yvP5A4PNyBL1W8fkDUccmI21JUu/+GKZBoH/W5u6usENXUrWFRsyoW5ACUjFGgAFQp5gUlb/A==}
@@ -2908,40 +2855,6 @@ packages:
   tsx@4.19.2:
     resolution: {integrity: sha512-pOUl6Vo2LUq/bSa8S5q7b91cgNSjctn9ugq/+Mvow99qW6x/UZYwzxy/3NmqoT66eHYfCVvFvACC58UBPFf28g==}
     engines: {node: '>=18.0.0'}
-    hasBin: true
-
-  turbo-darwin-64@2.3.3:
-    resolution: {integrity: sha512-bxX82xe6du/3rPmm4aCC5RdEilIN99VUld4HkFQuw+mvFg6darNBuQxyWSHZTtc25XgYjQrjsV05888w1grpaA==}
-    cpu: [x64]
-    os: [darwin]
-
-  turbo-darwin-arm64@2.3.3:
-    resolution: {integrity: sha512-DYbQwa3NsAuWkCUYVzfOUBbSUBVQzH5HWUFy2Kgi3fGjIWVZOFk86ss+xsWu//rlEAfYwEmopigsPYSmW4X15A==}
-    cpu: [arm64]
-    os: [darwin]
-
-  turbo-linux-64@2.3.3:
-    resolution: {integrity: sha512-eHj9OIB0dFaP6BxB88jSuaCLsOQSYWBgmhy2ErCu6D2GG6xW3b6e2UWHl/1Ho9FsTg4uVgo4DB9wGsKa5erjUA==}
-    cpu: [x64]
-    os: [linux]
-
-  turbo-linux-arm64@2.3.3:
-    resolution: {integrity: sha512-NmDE/NjZoDj1UWBhMtOPmqFLEBKhzGS61KObfrDEbXvU3lekwHeoPvAMfcovzswzch+kN2DrtbNIlz+/rp8OCg==}
-    cpu: [arm64]
-    os: [linux]
-
-  turbo-windows-64@2.3.3:
-    resolution: {integrity: sha512-O2+BS4QqjK3dOERscXqv7N2GXNcqHr9hXumkMxDj/oGx9oCatIwnnwx34UmzodloSnJpgSqjl8iRWiY65SmYoQ==}
-    cpu: [x64]
-    os: [win32]
-
-  turbo-windows-arm64@2.3.3:
-    resolution: {integrity: sha512-dW4ZK1r6XLPNYLIKjC4o87HxYidtRRcBeo/hZ9Wng2XM/MqqYkAyzJXJGgRMsc0MMEN9z4+ZIfnSNBrA0b08ag==}
-    cpu: [arm64]
-    os: [win32]
-
-  turbo@2.3.3:
-    resolution: {integrity: sha512-DUHWQAcC8BTiUZDRzAYGvpSpGLiaOQPfYXlCieQbwUvmml/LRGIe3raKdrOPOoiX0DYlzxs2nH6BoWJoZrj8hA==}
     hasBin: true
 
   type-check@0.4.0:
@@ -4425,8 +4338,6 @@ snapshots:
 
   dlv@1.1.3: {}
 
-  dotenv@16.0.3: {}
-
   dotenv@16.4.7: {}
 
   dunder-proto@1.0.1:
@@ -4525,24 +4436,14 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-prettier@9.1.0(eslint@9.16.0(jiti@1.21.6)):
+  eslint-config-prettier@10.1.8(eslint@9.16.0(jiti@1.21.6)):
     dependencies:
       eslint: 9.16.0(jiti@1.21.6)
-
-  eslint-config-turbo@2.3.3(eslint@9.16.0(jiti@1.21.6)):
-    dependencies:
-      eslint: 9.16.0(jiti@1.21.6)
-      eslint-plugin-turbo: 2.3.3(eslint@9.16.0(jiti@1.21.6))
 
   eslint-plugin-only-warn@1.1.0: {}
 
   eslint-plugin-react-hooks@5.1.0(eslint@9.16.0(jiti@1.21.6)):
     dependencies:
-      eslint: 9.16.0(jiti@1.21.6)
-
-  eslint-plugin-turbo@2.3.3(eslint@9.16.0(jiti@1.21.6)):
-    dependencies:
-      dotenv: 16.0.3
       eslint: 9.16.0(jiti@1.21.6)
 
   eslint-scope@8.2.0:
@@ -5613,33 +5514,6 @@ snapshots:
       get-tsconfig: 4.8.1
     optionalDependencies:
       fsevents: 2.3.3
-
-  turbo-darwin-64@2.3.3:
-    optional: true
-
-  turbo-darwin-arm64@2.3.3:
-    optional: true
-
-  turbo-linux-64@2.3.3:
-    optional: true
-
-  turbo-linux-arm64@2.3.3:
-    optional: true
-
-  turbo-windows-64@2.3.3:
-    optional: true
-
-  turbo-windows-arm64@2.3.3:
-    optional: true
-
-  turbo@2.3.3:
-    optionalDependencies:
-      turbo-darwin-64: 2.3.3
-      turbo-darwin-arm64: 2.3.3
-      turbo-linux-64: 2.3.3
-      turbo-linux-arm64: 2.3.3
-      turbo-windows-64: 2.3.3
-      turbo-windows-arm64: 2.3.3
 
   type-check@0.4.0:
     dependencies:

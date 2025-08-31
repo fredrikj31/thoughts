@@ -1,9 +1,10 @@
+import onlyWarn from "eslint-plugin-only-warn";
 import tsParser from "@typescript-eslint/parser";
 import path from "node:path";
+import globals from "globals";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
-import sharedEslintConfig from "@thoughts/eslint-config/eslint.config.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,23 +15,30 @@ const compat = new FlatCompat({
 });
 
 export default [
-  ...sharedEslintConfig,
   {
-    ignores: [
-      "**/dist",
-      "**/.eslintrc",
-      "**/.turbo",
-      "**/node_modules",
-      "**/build",
-    ],
+    ignores: ["**/dist", "**/.eslintrc", "**/node_modules", "**/build"],
   },
   ...compat.extends(
     "eslint:recommended",
+    "prettier",
     "plugin:@typescript-eslint/recommended",
   ),
   {
+    plugins: {
+      "only-warn": onlyWarn,
+    },
+
+    settings: {
+      "import/resolver": {
+        typescript: {
+          project: "./tsconfig.json",
+        },
+      },
+    },
     languageOptions: {
-      globals: {},
+      globals: {
+        ...globals.node,
+      },
       parser: tsParser,
     },
   },
