@@ -1,2 +1,2 @@
-pnpm run format:api && pnpm run format:app
-pnpm run lint:api && pnpm run lint:app
+pnpm run api:format && pnpm run app:format
+pnpm run api:lint && pnpm run app:lint

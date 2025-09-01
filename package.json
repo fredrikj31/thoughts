@@ -2,14 +2,14 @@
   "name": "thoughts",
   "private": true,
   "scripts": {
-    "build:api": "pnpm run --filter @thoughts/api build",
-    "build:app": "pnpm run --filter @thoughts/app build",
-    "dev:api": "pnpm run --filter @thoughts/api dev",
-    "dev:app": "pnpm run --filter @thoughts/app dev",
-    "lint:api": "pnpm run --filter @thoughts/api lint",
-    "lint:app": "pnpm run --filter @thoughts/app lint",
-    "format:api": "pnpm run --filter @thoughts/api format",
-    "format:app": "pnpm run --filter @thoughts/app format",
+    "api:build": "pnpm run --filter @thoughts/api build",
+    "app:build": "pnpm run --filter @thoughts/app build",
+    "api:dev": "pnpm run --filter @thoughts/api dev",
+    "app:dev": "pnpm run --filter @thoughts/app dev",
+    "api:lint": "pnpm run --filter @thoughts/api lint",
+    "app:lint": "pnpm run --filter @thoughts/app lint",
+    "api:format": "pnpm run --filter @thoughts/api format",
+    "app:format": "pnpm run --filter @thoughts/app format",
     "prepare": "husky"
   },
   "devDependencies": {
