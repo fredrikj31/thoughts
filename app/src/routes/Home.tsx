@@ -14,9 +14,11 @@ import { useState } from "react";
 import { useCreatePost } from "../api/posts/createPost/useCreatePost";
 import { useToast } from "@shadcn-ui/components/ui/use-toast";
 import { useListPosts } from "../api/posts/listPosts/useListPosts";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const HomePage = () => {
   const maxPostContentLength = 500;
+  const queryClient = useQueryClient();
   const [content, setContent] = useState<string>("");
   const { toast } = useToast();
 
@@ -43,6 +45,12 @@ export const HomePage = () => {
           });
         },
         onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["posts"] });
+          toast({
+            title: "Success",
+            description: "Successfully created your post",
+            variant: "default",
+          });
           setContent("");
         },
       },
