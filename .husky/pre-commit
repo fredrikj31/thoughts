@@ -1,2 +1,1 @@
-pnpm run api:format && pnpm run app:format
-pnpm run api:lint && pnpm run app:lint
+pnpm run pre-commit

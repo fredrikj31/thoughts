@@ -1,0 +1,4 @@
+{
+  "app/**/*": ["pnpm run app:format", "pnpm run app:lint"],
+  "api/**/*": ["pnpm run api:format", "pnpm run api:lint"]
+}

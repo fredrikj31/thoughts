@@ -10,10 +10,12 @@
     "app:lint": "pnpm run --filter @thoughts/app lint",
     "api:format": "pnpm run --filter @thoughts/api format",
     "app:format": "pnpm run --filter @thoughts/app format",
-    "prepare": "husky"
+    "prepare": "husky",
+    "pre-commit": "lint-staged"
   },
   "devDependencies": {
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.6"
   },
   "packageManager": "pnpm@9.0.0",
   "engines": {
