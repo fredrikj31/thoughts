@@ -4,6 +4,8 @@
   "scripts": {
     "api:build": "pnpm run --filter @thoughts/api build",
     "app:build": "pnpm run --filter @thoughts/app build",
+    "api:build:check": "pnpm run --filter @thoughts/api build:check",
+    "app:build:check": "pnpm run --filter @thoughts/app build:check",
     "api:dev": "pnpm run --filter @thoughts/api dev",
     "app:dev": "pnpm run --filter @thoughts/app dev",
     "api:lint": "pnpm run --filter @thoughts/api lint",
