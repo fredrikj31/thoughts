@@ -11,8 +11,10 @@
     "app:dev": "pnpm run --filter @thoughts/app dev",
     "api:lint": "pnpm run --filter @thoughts/api lint",
     "app:lint": "pnpm run --filter @thoughts/app lint",
-    "api:format": "pnpm run --filter @thoughts/api format",
-    "app:format": "pnpm run --filter @thoughts/app format",
+    "api:format:check": "pnpm run --filter @thoughts/api format:check",
+    "app:format:check": "pnpm run --filter @thoughts/app format:check",
+    "api:format:write": "pnpm run --filter @thoughts/api format:write",
+    "app:format:write": "pnpm run --filter @thoughts/app format:write",
     "prepare": "husky",
     "pre-commit": "lint-staged -c lint-staged.config.js"
   },
