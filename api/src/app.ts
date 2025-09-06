@@ -1,10 +1,10 @@
 import Fastify, { FastifyInstance } from "fastify";
 import fastifySwagger from "@fastify/swagger";
-import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
 import fastifyMultipart from "@fastify/multipart";
-import { swaggerConfig, swaggerUiConfig } from "./plugins/swagger";
+import ScalarApiReference from "@scalar/fastify-api-reference";
+import { swaggerConfig } from "./plugins/swagger";
 import { config } from "./config";
 import { logger } from "./logger";
 import { BaseError } from "./errors";
@@ -18,7 +18,9 @@ const app: FastifyInstance = Fastify({
 
 app
   .register(fastifySwagger, swaggerConfig)
-  .register(fastifySwaggerUi, swaggerUiConfig)
+  .register(ScalarApiReference, {
+    routePrefix: "/docs",
+  })
   .register(fastifyCors, {
     origin: config.website.baseUrl,
     methods: ["GET", "POST", "PUT", "DELETE"],
