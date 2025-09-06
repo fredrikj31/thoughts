@@ -7,3 +7,4 @@ export const DateSchema = z
   );
 
 export const GenderSchema = z.enum(["MALE", "FEMALE", "PREFER_NOT_TO_SAY"]);
+export type Gender = z.infer<typeof GenderSchema>;
