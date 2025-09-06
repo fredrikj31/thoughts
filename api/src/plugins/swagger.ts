@@ -45,7 +45,7 @@ export const swaggerConfig: FastifyDynamicSwaggerOptions = {
       url: "https://github.com/fredrikj31/thoughts",
       description: "Find more info here",
     },
-    host: `localhost:${config.api.port}`,
+    host: `127.0.0.1:${config.api.port}`,
     schemes: ["http"],
     consumes: ["application/json"],
     produces: ["application/json"],
