@@ -1,5 +1,4 @@
 import { FastifyDynamicSwaggerOptions } from "@fastify/swagger";
-import { FastifySwaggerUiOptions } from "@fastify/swagger-ui";
 import { jsonSchemaTransform } from "fastify-type-provider-zod";
 import { config } from "../config";
 
@@ -34,14 +33,6 @@ const normalizeFileFields = (obj: Record<string, any>) => {
   return obj;
 };
 
-export const swaggerUiConfig: FastifySwaggerUiOptions = {
-  routePrefix: "/docs",
-  logo: {
-    content: "",
-    type: "",
-  },
-};
-
 export const swaggerConfig: FastifyDynamicSwaggerOptions = {
   mode: "dynamic",
   swagger: {
@@ -54,7 +45,7 @@ export const swaggerConfig: FastifyDynamicSwaggerOptions = {
       url: "https://github.com/fredrikj31/thoughts",
       description: "Find more info here",
     },
-    host: `localhost:${config.api.port}`,
+    host: `127.0.0.1:${config.api.port}`,
     schemes: ["http"],
     consumes: ["application/json"],
     produces: ["application/json"],
