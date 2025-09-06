@@ -1,5 +1,5 @@
 import z from "zod";
-import { DateSchema, GenderSchema } from ".";
+import { DateSchema, GenderSchema } from "./shared";
 
 export const ProfileSchema = z.object({
   userId: z.string().uuid(),
