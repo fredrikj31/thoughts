@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "tsx watch src/app.ts | pino-pretty",
     "build": "tsc",
-    "tsc": "tsc --noEmit",
+    "build:check": "tsc --noEmit",
     "start": "node build/app.js",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier . --check"

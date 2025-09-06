@@ -15,6 +15,7 @@ import { Checkbox } from "@shadcn-ui/components/ui/checkbox";
 import { useToast } from "@shadcn-ui/components/ui/use-toast";
 import { useAuth } from "../../providers/auth";
 import { MessageCircle } from "lucide-react";
+import { Gender, GenderSchema } from "../../types/shared";
 
 export const SignupPage = () => {
   const { toast } = useToast();
@@ -26,7 +27,7 @@ export const SignupPage = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
-  const [gender, setGender] = useState<string>("");
+  const [gender, setGender] = useState<Gender>("MALE");
   const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
 
   const signup = () => {
@@ -153,7 +154,21 @@ export const SignupPage = () => {
               toDate={new Date()}
               onDateSelected={(date) => setBirthDate(date)}
             />
-            <Select value={gender} onValueChange={(e) => setGender(e)}>
+            <Select
+              value={gender}
+              onValueChange={(e) => {
+                const { success, data, error } = GenderSchema.safeParse(e);
+                if (success) {
+                  setGender(data);
+                } else {
+                  console.error(
+                    "Failed to parse gender select value to type",
+                    error,
+                  );
+                  return;
+                }
+              }}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Gender" />
               </SelectTrigger>
