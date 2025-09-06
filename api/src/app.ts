@@ -3,7 +3,6 @@ import fastifySwagger from "@fastify/swagger";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
 import fastifyMultipart from "@fastify/multipart";
-import ScalarApiReference from "@scalar/fastify-api-reference";
 import { swaggerConfig } from "./plugins/swagger";
 import { config } from "./config";
 import { logger } from "./logger";
@@ -18,7 +17,7 @@ const app: FastifyInstance = Fastify({
 
 app
   .register(fastifySwagger, swaggerConfig)
-  .register(ScalarApiReference, {
+  .register(import("@scalar/fastify-api-reference"), {
     routePrefix: "/docs",
   })
   .register(fastifyCors, {
