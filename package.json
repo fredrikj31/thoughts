@@ -1,6 +1,7 @@
 {
   "name": "thoughts",
   "private": true,
+  "type": "module",
   "scripts": {
     "api:build": "pnpm run --filter @thoughts/api build",
     "app:build": "pnpm run --filter @thoughts/app build",
@@ -13,7 +14,7 @@
     "api:format": "pnpm run --filter @thoughts/api format",
     "app:format": "pnpm run --filter @thoughts/app format",
     "prepare": "husky",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged -c lint-staged.config.js"
   },
   "devDependencies": {
     "husky": "^9.1.7",
