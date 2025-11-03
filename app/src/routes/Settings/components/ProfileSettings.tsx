@@ -137,7 +137,7 @@ export const ProfileSettings = () => {
   };
 
   if (isProfileLoading || !profile) {
-    return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
+    return <Skeleton className="w-[100px] h-5 rounded-full" />;
   }
 
   return (
