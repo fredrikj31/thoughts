@@ -80,22 +80,29 @@ export const ProfileSettings = () => {
   const [selectedProfilePicture, setSelectedProfilePicture] = useState<
     File | undefined
   >(undefined);
-  const [previewProfilePicture, setPreviewProfilePicture] = useState<
-    string | undefined
-  >(undefined);
 
-  useEffect(() => {
+  const previewProfilePicture = useMemo(() => {
+    // If no picture is selected, there is no URL
     if (!selectedProfilePicture) {
-      setPreviewProfilePicture(undefined);
-      return;
+      return undefined;
     }
 
-    const objectUrl = URL.createObjectURL(selectedProfilePicture);
-    setPreviewProfilePicture(objectUrl);
+    // Create the object URL. This runs only when selectedProfilePicture changes.
+    return URL.createObjectURL(selectedProfilePicture);
+  }, [selectedProfilePicture]); // Dependency: the selected file
 
-    // free memory when ever this component is unmounted
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [selectedProfilePicture]);
+  // 2. Use useEffect *only* for the cleanup logic
+  useEffect(() => {
+    // This is the cleanup function.
+    // It will run when the component unmounts OR when the dependency
+    // (previewProfilePicture) changes *before* the next render.
+    return () => {
+      // If a URL was previously created, revoke it now to free memory
+      if (previewProfilePicture) {
+        URL.revokeObjectURL(previewProfilePicture);
+      }
+    };
+  }, [previewProfilePicture]);
 
   useEffect(() => {
     form.reset({
@@ -137,7 +144,7 @@ export const ProfileSettings = () => {
   };
 
   if (isProfileLoading || !profile) {
-    return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
+    return <Skeleton className="w-[100px] h-5 rounded-full" />;
   }
 
   return (

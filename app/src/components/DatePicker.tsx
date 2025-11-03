@@ -1,49 +1,98 @@
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
+"use client";
 
-import { cn } from "@shadcn-ui/lib/utils";
+import * as React from "react";
+import { CalendarIcon } from "lucide-react";
+
 import { Button } from "@shadcn-ui/components/ui/button";
 import { Calendar } from "@shadcn-ui/components/ui/calendar";
+import { Input } from "@shadcn-ui/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@shadcn-ui/components/ui/popover";
 
-interface DatePickerProps {
-  date?: Date;
-  toDate?: Date;
-  onDateSelected: (date: Date | undefined) => void;
+function formatDate(date: Date | undefined) {
+  if (!date) {
+    return "";
+  }
+
+  return date.toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
 }
 
-export const DatePicker = ({
-  date,
-  toDate,
-  onDateSelected,
-}: DatePickerProps) => {
+function isValidDate(date: Date | undefined) {
+  if (!date) {
+    return false;
+  }
+  return !isNaN(date.getTime());
+}
+
+interface DatePickerProps {
+  date?: Date;
+  onDateSelected: (date: Date | undefined) => void;
+}
+export const DatePicker = ({ date, onDateSelected }: DatePickerProps) => {
+  const [open, setOpen] = React.useState(false);
+  const [month, setMonth] = React.useState<Date | undefined>(date);
+  const [value, setValue] = React.useState(formatDate(date));
+
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground",
-          )}
+    <div className="relative flex gap-2">
+      <Input
+        id="date"
+        value={value}
+        placeholder="June 01, 2025"
+        className="bg-background pr-10"
+        onChange={(e) => {
+          const date = new Date(e.target.value);
+          setValue(e.target.value);
+          if (isValidDate(date)) {
+            onDateSelected(date);
+            setMonth(date);
+          }
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setOpen(true);
+          }
+        }}
+      />
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            id="date-picker"
+            variant="ghost"
+            className="absolute top-1/2 right-2 size-6 -translate-y-1/2"
+          >
+            <CalendarIcon className="size-3.5" />
+            <span className="sr-only">Select date</span>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          className="w-auto overflow-hidden p-0"
+          align="end"
+          alignOffset={-8}
+          sideOffset={10}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <Calendar
-          mode="single"
-          weekStartsOn={1}
-          selected={date}
-          onSelect={(date) => onDateSelected(date)}
-          toDate={toDate}
-        />
-      </PopoverContent>
-    </Popover>
+          <Calendar
+            mode="single"
+            selected={date}
+            captionLayout="dropdown"
+            month={month}
+            onMonthChange={setMonth}
+            onSelect={(date) => {
+              onDateSelected(date);
+              setValue(formatDate(date));
+              setOpen(false);
+            }}
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 };
