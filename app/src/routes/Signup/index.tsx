@@ -151,7 +151,6 @@ export const SignupPage = () => {
           <div className="grid grid-cols-2 gap-2">
             <DatePicker
               date={birthDate}
-              toDate={new Date()}
               onDateSelected={(date) => setBirthDate(date)}
             />
             <Select

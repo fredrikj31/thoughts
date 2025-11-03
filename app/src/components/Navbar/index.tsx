@@ -27,6 +27,7 @@ import { useGetUserProfile } from "../../api/profiles/getUserProfile/useGetUserP
 import { Bell, House, Mail, Menu, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { config } from "../../config";
+import { JSX } from "react";
 
 export const Navbar = () => {
   const { logout } = useAuth();
