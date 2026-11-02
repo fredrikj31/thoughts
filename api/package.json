@@ -40,6 +40,6 @@
     "pino": "^10.1.0",
     "slonik": "^48.7.0",
     "slonik-interceptor-field-name-transformation": "^48.7.0",
-    "zod": "^4.1.12"
+    "zod": "^4.6.6"
   }
 }
